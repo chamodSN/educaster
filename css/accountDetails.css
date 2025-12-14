@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+.account-wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 70vh;
+}
+
+.account-container {
+	background: #ffffff;
+	width: 800px;
+	padding: 30px 20px;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	text-align: center;
+}
+
+.account-container p {
+	font-size: 20px;
+	font-weight: bold;
+	margin-bottom: 20px;
+	color: #333533;
+	text-transform: uppercase;
+}
+
+
+#user-account {
+	width: 80%;
+	margin: 20px auto;
+	border-collapse: collapse;
+	font-size: 16px;
+	background-color: #f9f9f9;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#user-account td {
+	padding: 12px 15px;
+	border: 1px solid #ddd;
+	text-align: right;
+}
+
+#user-account tr:hover {
+	background-color: #e0e0e0;
+	transition: background-color 0.3s ease;
+}
+
+.account-container input[type="submit"],
+.account-container button {
+	width: 60%;
+	margin-bottom: 20px;
+	padding: 10px;
+	border: none;
+	border-radius: 8px;
+	background-color: #04AA6D;
+	transition: background-color 0.3s ease;
+	cursor: pointer;
+}
+
+.account-container input[type="submit"]:hover,
+.account-container button:hover {
+	background-color: #037a52;
+}

@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap') * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+.sideform{
+	float:left;
+	width:200px;
+	background-color:#eee;
+	overflow-y:auto;
+	margin-top:20px;
+	margin-bottom:20px;
+	margin-left:100px;
+	margin-right:150px;
+	box-shadow:0 5px 10px #2F4F4F;
+}
+
+.sideform h3{
+	padding:6px 8px 6px 16px;
+	font-size:25px;
+	
+}
+.sideform h4{
+	padding:6px 8px 6px 16px;
+	font-size:25px;
+	
+}
+
+.sideform p{
+	padding:6px 8px 6px 16px;
+	font-size:15px;
+	
+}
+
+.sideform a{
+	padding:6px 8px 6px 16px;
+	font-size:25px;
+	text-decoration:none;
+	color:#2196F3;
+	display:block;
+	
+}
+
+.sideform a:hover{
+	color:#191970;
+	
+}
+
+.pform{
+	width:300px;
+	float:left;
+	background-color:#ADD8E6;
+	text-align:center;
+	margin-top:20px;
+	height:auto;
+	box-shadow:0 5px 10px #2F4F4F;
+	
+}
+
+.btn{
+	margin-top:10px;
+	margin-bottom:10px;
+	
+}
+
+
+.cn{
+	margin-top:10px;
+	margin-bottom:10px;
+}

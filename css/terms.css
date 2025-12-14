@@ -1,0 +1,23 @@
+.content{
+    display: none;
+    margin: 10px 30px;
+}
+
+.content.active{
+    display: block;
+}
+
+.page-content{
+    text-align: center;
+    margin: 10px;
+}
+
+.tab{
+    margin: 0 10px;
+}
+
+.footer{
+    margin-top: 20px;
+}
+
+

@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: rgb(255, 255, 255);
+}
+
+.navigation .navLinks li,
+.navigation .navLinks a,
+button {
+    font-family: "lato", monsterrat, sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #edf0f1;
+    text-decoration: none;
+}
+
+.logo {
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px 5px;
+    width: 30%;
+    float: left;
+}
+
+.navigation {
+    clear: both;
+
+}
+
+.sign {
+    float: right;
+}
+
+.navigation .navLinks {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+.navigation .navLinks li {
+    display: inline-block;
+    padding: 0px 20px;
+}
+
+.navigation .navLinks li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navigation .navLinks li a:hover {
+    color: #0088a9;
+}
+
+button {
+    padding: 9px 25px;
+    margin: 2px;
+    background-color: rgba(0, 136, 169, 1);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: rgba(0, 136, 169, 0.8);
+}
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #333;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.fotNavLinks .left li a,
+.socialMedia .mediaIcons li a,
+.contactInfo .contact li a {
+    text-decoration: none;
+    color: white;
+    margin: 10px;
+
+}
+
+.fotNavLinks .left li,
+.socialMedia .mediaIcons li {
+    display: inline-block;
+
+}
+
+.fotNavLinks .left,
+.socialMedia .mediaIcons,
+.contactInfo .contact {
+    list-style: none;
+    margin: 10px;
+}
+
+/*main css*/
+.centerlinks{
+	padding: 10px 12px;
+	text-align: center;
+	
+}
+.centerlinks a{
+	text-decoration:none;
+	margin-right: 50px;
+	color: #000080;
+}
+.centerlinks a:hover {
+	color: #AFEEEE;
+}
+.main{
+	padding: 12px 14px;
+	text-align: center;
+}
+.main p{
+	letter-spacing:2px;
+	font-size:15px;
+}

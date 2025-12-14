@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.basic-Course-Wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.basic-Course-Container {
+    background: #ffffff;
+    width: 500px;
+    padding: 30px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.topic {
+    font-weight: bold;
+    font-size: 24px;
+    text-transform: uppercase;
+}
+
+.basic-Course-Container input[type="text"],
+.basic-Course-Container input[type="date"],
+.basic-Course-Container input[type="file"],
+.basic-Course-Container input[type="number"],
+textarea {
+    width: 80%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border: none;
+    font-size: 14px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #f9f9f9;
+}
+
+.basic-Course-Container input[type="submit"] {
+    width: 80%;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background-color: #04AA6D;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.basic-Course-Container input[type="submit"]:hover {
+    background-color: #037a52;
+}
