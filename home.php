@@ -7,7 +7,7 @@
     <title>Educaster</title>
     <link rel="stylesheet" href="css/home.css"> 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
-    <?php include_once'common/config.php'; ?>
+    <?php require_once 'common/config.php'; ?>
 </head>
 
 <body>
@@ -79,8 +79,8 @@
 
     <?php
 
-$popular = "SELECT courseName, introImage, id
-            FROM mainCourse
+$popular = "SELECT Title, Intro_Image, Course_Id
+            FROM Course
             LIMIT 5";
 
 $results = $connection->query($popular);
@@ -89,10 +89,10 @@ while ($row = $results->fetch_assoc()) {
     
     echo '
     <div class="course">    
-    <img src="images/courseImages/' . $row['introImage'] . '">
-        <a href="courseOverview.php?course_id=' . $row['id'] . '" class="link">
+    <img src="/educaster/uploads/' . $row['Intro_Image'] . '">
+        <a href="courseOverview.php?course_id=' . $row['Course_Id'] . '" class="link">
         
-            <h4>' . $row['courseName'] . '</h4>
+            <h4>' . $row['Title'] . '</h4>
         </a>
     </div>';
 }

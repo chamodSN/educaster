@@ -11,7 +11,7 @@
 </head>
 
 <body>
-<?php include'header.php';?>
+<?php include'common/header.php';?>
     <br>
    
    <div class = "centerlinks" >
@@ -26,7 +26,7 @@
    </div>
    
     <br>
-    <?php include'footer.php';?>
+    <?php include'common/footer.php';?>
 
 </body>
 

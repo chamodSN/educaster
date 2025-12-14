@@ -65,10 +65,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["signup"])) {
         <form action="signup.php" method="POST">
             <input type="text" name="userName" placeholder="Username" required><br>
             <input type="email" name="email" placeholder="Email" required><br>
-            <input type="password" name="password" placeholder="Password" required><br>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <div id="strength"></div>
             <input type="password" name="passwordRepeat" placeholder="Repeat Password" required><br>
             <input type="submit" name="signup" value="Sign Up">
         </form>
+
+        <p>Already have an account? <a href="login.php">Log in</a></p>
 
         <?php
         if (isset($_GET["error"])) {
@@ -94,3 +97,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["signup"])) {
 <?php include '../common/footer.php'; ?>
 </body>
 </html>
+
+<script>
+const pwd = document.getElementById("password");
+const strength = document.getElementById("strength");
+
+pwd.addEventListener("input", function() {
+    let val = pwd.value;
+    let textClass = "";
+    let borderClass = "";
+
+    if (val.length < 6) {
+        strength.textContent = "Weak";
+        textClass = "strength-weak";
+        borderClass = "weak";
+    } else if (val.match(/[A-Z]/) && val.match(/\d/)) {
+        strength.textContent = "Strong";
+        textClass = "strength-strong";
+        borderClass = "strong";
+    } else {
+        strength.textContent = "Medium";
+        textClass = "strength-medium";
+        borderClass = "medium";
+    }
+
+    // Remove previous classes
+    strength.className = "";
+    pwd.className = "";
+    
+    // Add current classes
+    strength.classList.add(textClass);
+    pwd.classList.add(borderClass);
+});
+
+const errorMsg = document.querySelector(".error");
+const successMsg = document.querySelector(".success");
+
+if(errorMsg) setTimeout(() => errorMsg.style.display = 'none', 5000);
+if(successMsg) setTimeout(() => successMsg.style.display = 'none', 5000);
+
+</script>

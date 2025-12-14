@@ -67,14 +67,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update"])) {
 <body>
 <?php include '../common/header.php'; ?>
 
-<div class="wrapper">
-    <h1>Update Account Details</h1>
-    <form action="updateAccountDetails.php" method="POST">
-        <input type="email" name="email" value="<?= htmlspecialchars($userData["Email"]) ?>" required><br>
-        <input type="password" name="password" placeholder="New Password (leave blank to keep current)"><br>
-        <input type="password" name="passwordRepeat" placeholder="Repeat New Password"><br>
-        <input type="submit" name="update" value="Update">
-    </form>
+<div class="update-account-wrapper">
+    <div class="update-account-container">
+        <h1>Update Account Details</h1>
+        <form action="updateAccountDetails.php" method="POST">
+            <input type="email" name="email" value="<?= htmlspecialchars($userData["Email"]) ?>" required><br>
+            <input type="password" name="password" placeholder="New Password (leave blank to keep current)"><br>
+            <input type="password" name="passwordRepeat" placeholder="Repeat New Password"><br>
+            <input type="submit" name="update" value="Update">
+        </form>
 
     <?php
     if (isset($_GET["error"])) {
@@ -91,8 +92,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update"])) {
         echo '<div class="success">Account updated successfully!</div>';
     }
     ?>
+    </div>
 </div>
-
 <?php include '../common/footer.php'; ?>
 </body>
 </html>

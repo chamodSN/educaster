@@ -8,21 +8,27 @@ if (!isset($_SESSION["userData"])) {
 
 require_once '../common/config.php';
 
+$userId   = $_SESSION["userData"]["Registered_User_Id"];
 $userName = $_SESSION["userData"]["User_Name"];
 
-$sql = "DELETE FROM Registered_User WHERE User_Name = ?";
-$stmt = mysqli_stmt_init($connection);
+$deleteEnrollments = $connection->prepare(
+    "DELETE FROM enrollment WHERE Registered_User_Id = ?"
+);
 
-if (!mysqli_stmt_prepare($stmt, $sql)) {
-    header("location: accountDetails.php?error=queryfailed");
-    exit();
-}
+$deleteEnrollments->bind_param("i", $userId);
+$deleteEnrollments->execute();
+$deleteEnrollments->close();
 
-mysqli_stmt_bind_param($stmt, "s", $userName);
-mysqli_stmt_execute($stmt);
+$deleteUser = $connection->prepare(
+    "DELETE FROM registered_user WHERE Registered_User_Id = ?"
+);
+
+$deleteUser->bind_param("i", $userId);
+$deleteUser->execute();
+$deleteUser->close();
 
 session_unset();
 session_destroy();
 
-header("location: login.php?message=accountdeleted");
+header("location: signup.php?message=accountdeleted");
 exit();
