@@ -1,3 +1,5 @@
+<?php require_once 'common/config.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,70 +8,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Educaster</title>
     <link rel="stylesheet" href="css/home.css"> 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
-    <?php require_once 'common/config.php'; ?>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
 <?php include 'common/header.php';?>
-    <br>
     <div class="homeImage">
         <img src="images/home1.png" alt="homeImage" class="image">
-        
     </div>
-
-    </div>
-
-    <br>
 
     <div class="intro">
-        <p class="para">
-            Welcome to <b>EDUCASTER</b>, where passion for teaching meets the power of knowledge. Aspiring educators,
-            seasoned
-            professionals, and lifelong learners alike, embark on a transformative journey with us.
-        </p><br>
-        <p class="para">
-            At <b>EDUCASTER</b>, we believe that education is the cornerstone of progress, and teachers are the
-            architects
-            of tomorrow. Whether you're just starting your teaching career or looking to enhance your skills, our
-            comprehensive platform offers the tools, resources, and guidance you need to succeed.
-        </p><br>
-        <p class="para">
-            Led by some of the industry's best instructors, our team is committed to providing you with the highest
-            quality education. Benefit from their expertise, insights, and personalized support as you navigate through
-            your learning journey.
-        </p><br>
-        <p class="para">
-            <b><a href="">Join us</a></b> today and unlock your full potential as an educator. Your journey to success
-            starts here.
-        </p><br>
+        <div class="intro-card">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <p class="para">
+                Welcome to <b>EDUCASTER</b>, where passion for teaching meets the power of knowledge.
+            </p>
+        </div>
+
+        <div class="intro-card">
+            <i class="fas fa-graduation-cap"></i>
+            <p class="para">
+                We empower aspiring and professional educators with structured, high-quality training programs.
+            </p>
+        </div>
+
+        <div class="intro-card">
+            <i class="fas fa-users"></i>
+            <p class="para">
+                Learn from industry-leading instructors who guide you with real-world teaching expertise.
+            </p>
+        </div>
+
+        <div class="intro-card">
+            <i class="fas fa-rocket"></i>
+            <p class="para">
+                <b><a href="">Join us</a></b> today and unlock your full potential as an educator.
+            </p>
+        </div>
+
+        <div class="intro-card">
+            <i class="fas fa-globe-americas"></i>
+            <p class="para">
+                Become part of a <b>global community</b> of educators, sharing knowledge and inspiring learners worldwide.
+            </p>
+        </div>
+
     </div>
-    <br>
+
+    <div class="status-section">
+    <h3 class="status-title">Our Learning Impact</h3>
+    <p class="status-subtitle">Building a global ecosystem for modern educators</p>
 
     <div class="status">
-
-        <div class="pStatus" data-name="s-1">
-            <a href="" class="link"><img src="images/simage1.png">
-            </a>
+        <div class="status-card">
+            <i class="fas fa-user-tie"></i>
+            <h2>50+</h2>
+            <p>Expert Instructors</p>
         </div>
 
-        <div class="pStatus" data-name="s-2">
-            <a href="" class="link"><img src="images/simage2.png">
-            </a>
+        <div class="status-card">
+            <i class="fas fa-users"></i>
+            <h2>1000+</h2>
+            <p>Active Learners</p>
         </div>
 
-        <div class="pStatus" data-name="s-3">
-            <a href="" class="link"><img src="images/simage3.png">
-            </a>
+        <div class="status-card">
+            <i class="fas fa-layer-group"></i>
+            <h2>50+</h2>
+            <p>Course Categories</p>
         </div>
 
-        <div class="pStatus" data-name="s-4">
-            <a href="" class="link"><img src="images/simage4.png">
-            </a>
+        <div class="status-card">
+            <i class="fas fa-globe"></i>
+            <h2>Global</h2>
+            <p>Learning Community</p>
         </div>
-
-
     </div>
+</div>
+
     <!-- coure section start-->
     <div class="category">
     <h3 class="categoryTitle">Popular Courses</h3>
@@ -88,13 +104,18 @@ $results = $connection->query($popular);
 while ($row = $results->fetch_assoc()) {
     
     echo '
-    <div class="course">    
-    <img src="/educaster/uploads/' . $row['Intro_Image'] . '">
-        <a href="courseOverview.php?course_id=' . $row['Course_Id'] . '" class="link">
-        
+<div class="course-card">
+    <a href="courseOverview.php?course_id=' . $row['Course_Id'] . '" class="course-link">
+        <div class="course-image">
+            <img src="/educaster/uploads/' . $row['Intro_Image'] . '" alt="Course Image">
+        </div>
+        <div class="course-content">
             <h4>' . $row['Title'] . '</h4>
-        </a>
-    </div>';
+            <span class="course-tag">Teacher Training</span>
+        </div>
+    </a>
+</div>';
+
 }
 ?>
 
@@ -106,6 +127,26 @@ while ($row = $results->fetch_assoc()) {
 
     <!-- course section end -->
     <?php include 'common/footer.php';?>
+
+    <script>
+const cards = document.querySelectorAll('.course-card');
+
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, { threshold: 0.3 });
+
+cards.forEach(card => {
+    card.style.opacity = 0;
+    card.style.transform = 'translateY(30px)';
+    observer.observe(card);
+});
+</script>
+
 
 </body>
 

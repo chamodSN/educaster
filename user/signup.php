@@ -54,13 +54,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["signup"])) {
 <head>
     <meta charset="UTF-8">
     <title>Sign Up</title>
-    <link rel="stylesheet" href="../css/signup.css">
+    <link rel="stylesheet" href="../css/user_common.css">
 </head>
 <body>
 <?php include '../common/header.php'; ?>
 
-<div class="signup-wrapper">
-    <div class="signup-container">
+<div class="common-wrapper">
+    <div class="common-container">
         <h1 class="topic">Sign Up</h1>
         <form action="signup.php" method="POST">
             <input type="text" name="userName" placeholder="Username" required><br>

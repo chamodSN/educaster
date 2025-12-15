@@ -18,90 +18,133 @@ if ($loggedIn) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Contact Us - Educaster</title>
+    <title>Contact Us | Educaster</title>
     <link rel="stylesheet" href="../css/contactus.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </head>
 <body>
 
 <?php include '../common/header.php'; ?>
 
-<h2 class="intro">We are here to support you!</h2>
+<section class="meet-us-section">
+    <h2 class="section-title">Meet Us</h2>
+    <p class="section-subtitle">We’d love to hear from you</p>
 
-<div class="meetus-wrapper">
-    <div class="meetus-container">
-        <p class="topic">Meet Us</p><br>
-        <i class="fa fa-phone"></i> +94 711212125<br>
-        <i class="fa fa-map-marker"></i> No 167, New Kandy Road, Malabe.<br>
-        <i class="fa fa-envelope"></i> info@educaster.com<br>
+    <div class="meet-us-cards">
+        <div class="intro-card">
+            <i class="fas fa-phone-alt"></i>
+            <h4>Call Us</h4>
+            <p>+94 71 121 2125</p>
+        </div>
+
+        <div class="intro-card">
+            <i class="fas fa-envelope"></i>
+            <h4>Email Us</h4>
+            <p>info@educaster.com</p>
+        </div>
+
+        <div class="intro-card">
+            <i class="fas fa-map-marker-alt"></i>
+            <h4>Visit Us</h4>
+            <p>No 167, New Kandy Road, Malabe</p>
+        </div>
+
+        <div class="intro-card">
+            <i class="fas fa-clock"></i>
+            <h4>Office Hours</h4>
+            <p>Mon – Fri<br>9:00 AM – 5:00 PM</p>
+        </div>
+
     </div>
-</div>
+</section>
 
-<div class="wrapper">
-    <div class="contact-container">
-        <p class="topic">Share your thoughts or questions with us.</p><br>
+<section class="contact-section">
+    <div class="contact-box">
 
-        <?php if (!$loggedIn): ?>
-            <p style="color:red;">Please log in to send inquiries.</p>
-        <?php endif; ?>
+        <div class="contact-image">
+            <lottie-player
+                src="https://assets7.lottiefiles.com/packages/lf20_w51pcehl.json"
+                background="transparent"
+                speed="1"
+                loop
+                autoplay>
+            </lottie-player>
+        </div>
 
-        <form method="POST" action="sendInq.php">
-            Email:<br>
-            <input type="email" name="Email" value="<?= htmlspecialchars($email) ?>" <?= !$loggedIn ? 'disabled' : '' ?> required><br>
 
-            Telephone:<br>
-            <input type="tel" name="phone" maxlength="10" placeholder="+94XXXXXXXXX" <?= !$loggedIn ? 'disabled' : '' ?> required><br>
+        <div class="contact-form">
+            <h3>Send Us an Inquiry</h3>
 
-            Subject of your enquiry:<br>
-            <input type="text" name="Enquiry" placeholder="What is this about?" <?= !$loggedIn ? 'disabled' : '' ?> required><br><br/>
-
-            Enquiry:<br>
-            <textarea name="Details" rows="8" placeholder="How can we assist you?" <?= !$loggedIn ? 'disabled' : '' ?> required></textarea><br>
-
-            <input type="submit" value="Submit" <?= !$loggedIn ? 'disabled' : '' ?>>
-        </form>
-    </div>
-</div>
-
-<?php if ($loggedIn): ?>
-    <div class="wrapper">
-        <div class="contact-container">
-            <h3 class="topic">Your Previous Inquiries</h3><br>
-            <?php if (count($inquiries) > 0): ?>
-                <table border="1" cellpadding="5">
-                    <tr>
-                        <th>Subject</th>
-                        <th>Message</th>
-                        <th>Phone</th>
-                        <th>Date</th>
-                        <th>Actions</th>
-                    </tr>
-                    <?php foreach ($inquiries as $row): ?>
-                        <tr>
-                            <form action="updateInq.php" method="POST">
-                                <input type="hidden" name="id" value="<?= $row['Enquiry_Id'] ?>">
-                                <td><input type="text" name="Enquiry" value="<?= htmlspecialchars($row['Enq_Subject']) ?>" required></td>
-                                <td><textarea name="Details" rows="3"><?= htmlspecialchars($row['Enquiry']) ?></textarea></td>
-                                <td><input type="text" name="phone" value="<?= $row['phone_Number'] ?>" required></td>
-                                <input type="hidden" name="Email" value="<?= htmlspecialchars($row['Email']) ?>">
-                                <td><?= $row['Date'] ?></td>
-                                <td>
-                                    <input type="submit" value="Update">
-                            </form>
-                            <form action="deleteInq.php" method="POST" onsubmit="return confirm('Are you sure?');" style="display:inline;">
-                                <input type="hidden" name="id" value="<?= $row['Enquiry_Id'] ?>">
-                                <input type="submit" value="Delete">
-                            </form>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </table>
-            <?php else: ?>
-                <p>No previous inquiries found.</p>
+            <?php if (!$loggedIn): ?>
+                <p class="warning">Please log in to send inquiries.</p>
             <?php endif; ?>
+
+            <form method="POST" action="sendInq.php" id="contactForm">
+                <input type="email" name="Email"
+                       value="<?= htmlspecialchars($email) ?>"
+                       placeholder="Your Email"
+                       <?= !$loggedIn ? 'disabled' : '' ?> required>
+
+                <input type="tel" name="phone"
+                       placeholder="Phone Number"
+                       maxlength="10"
+                       <?= !$loggedIn ? 'disabled' : '' ?> required>
+
+                <input type="text" name="Enquiry"
+                       placeholder="Subject"
+                       <?= !$loggedIn ? 'disabled' : '' ?> required>
+
+                <textarea name="Details" rows="5"
+                          placeholder="Your Message"
+                          <?= !$loggedIn ? 'disabled' : '' ?> required></textarea>
+
+                <button type="submit" <?= !$loggedIn ? 'disabled' : '' ?>>
+                    Send Message
+                </button>
+            </form>
         </div>
     </div>
-<?php endif; ?>
+</section>
 
 <?php include '../common/footer.php'; ?>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const lottie = document.querySelector("lottie-player");
+    lottie.style.opacity = 0;
+    lottie.style.transform = "translateY(30px)";
+
+    setTimeout(() => {
+        lottie.style.transition = "all 0.8s ease";
+        lottie.style.opacity = 1;
+        lottie.style.transform = "translateY(0)";
+    }, 200);
+});
+
+// simple form UX
+const form = document.getElementById("contactForm");
+
+if (form) {
+    form.addEventListener("submit", () => {
+        alert("Thank you! Your inquiry has been sent.");
+    });
+}
+
+// animate cards on scroll
+const cards = document.querySelectorAll(".intro-card");
+
+window.addEventListener("scroll", () => {
+    cards.forEach(card => {
+        const pos = card.getBoundingClientRect().top;
+        if (pos < window.innerHeight - 100) {
+            card.style.opacity = 1;
+            card.style.transform = "translateY(0)";
+        }
+    });
+});
+
+</script>
+
 </body>
 </html>

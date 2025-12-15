@@ -1,98 +1,151 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
 
 * {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
+	font-family: "Lato", sans-serif;
 }
 
-.wrapper {
+/* ================= SECTION HEADERS ================= */
+.section-title {
+	text-align: center;
+	font-size: 36px;
+	margin-top: 60px;
+	font-weight: 700;
+}
+
+.section-subtitle {
+	text-align: center;
+	color: #555;
+	margin-bottom: 40px;
+}
+
+/* ================= MEET US ================= */
+.meet-us-section {
+	max-width: 1200px;
+	margin: auto;
+	padding: 0 20px;
+}
+
+.meet-us-cards {
 	display: flex;
-	align-items: center;
+	gap: 25px;
 	justify-content: center;
-	height: 90vh;
+	flex-wrap: wrap;
 }
 
-.contact-container {
+/* reuse homepage intro-card */
+.intro-card {
+	background: #fff;
+	width: 260px;
+	padding: 30px 20px;
+	text-align: center;
+	border-radius: 18px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+	transition: transform .4s ease, box-shadow .4s ease;
+}
+
+.intro-card:hover {
+	transform: translateY(-10px);
+	box-shadow: 0 18px 40px rgba(0, 0, 0, 0.15);
+}
+
+.intro-card i {
+	font-size: 40px;
+	color: #04AA6D;
+	margin-bottom: 15px;
+}
+
+.intro-card h4 {
+	margin-bottom: 10px;
+	font-size: 20px;
+}
+
+/* ================= CONTACT FORM ================= */
+.contact-section {
+	margin: 80px 0;
+}
+
+.contact-box {
+	max-width: 1100px;
+	margin: auto;
+	display: flex;
 	background: #ffffff;
-	width: 900px;
-	padding: 30px 20px;
-	border-radius: 8px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-	text-align: center;
+	border-radius: 20px;
+	overflow: hidden;
+	box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
 }
 
-.intro {
-	text-align: center;
-	font-size: 30px;
-	font-weight: bold;
-	padding: 5px;
-	background-color: #5ba0ca;
-	text-transform: uppercase;
-}
-
-.contact-container input[type="e-mail"],
-.contact-container input[type="tel"],
-.contact-container input[type="text"],
-textarea {
-	width: 80%;
-	padding: 10px;
-	margin-bottom: 20px;
-	border: none;
-	border-radius: 8px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.contact-container input[type="submit"] {
-	width: 80%;
-	margin-bottom: 20px;
-	padding: 10px;
-	border: none;
-	border-radius: 8px;
-	background-color: #04AA6D;
-	transition: background-color 0.3s ease;
-	cursor: pointer;
-}
-
-.contact-container input[type="submit"]:hover {
-	background-color: #037a52;
-}
-
-.meetus-wrapper {
+.contact-image {
+	flex: 1;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	height: 45vh;
+	padding: 20px;
 }
 
-.meetus-container {
-	background: #eff1c2;
-	width: 900px;
-	padding: 30px 20px;
-	border-radius: 8px;
-	box-shadow: 0 4px 8px rgba(85, 79, 79, 0.2);
-	text-align: center;
+.contact-image lottie-player {
+	width: 100%;
+	max-width: 420px;
+	height: 420px;
 }
 
-.topic {
-	font-weight: bold;
-	font-size: 24px;
+.contact-form {
+	flex: 1;
+	padding: 40px;
 }
 
-.meetus-wrapper .meetus-container i {
-	display: inline-block;
-	height: 40px;
-	width: 40px;
-	background-color: rgba(255, 255, 255, 0.2);
-	margin: 0 10px 10px 0;
-	text-align: center;
-	line-height: 40px;
-	border-radius: 50%;
-	color: #706c6c;
-	transition: all 0.5s ease;
+.contact-form h3 {
+	font-size: 28px;
+	margin-bottom: 25px;
 }
 
-.meetus-wrapper .meetus-container i:hover {
-	color: #24262b;
-	background-color: #ffffff;
+.contact-form input,
+.contact-form textarea {
+	width: 100%;
+	padding: 12px 15px;
+	margin-bottom: 18px;
+	border-radius: 10px;
+	border: 1px solid #ddd;
+	font-size: 15px;
+	transition: border .3s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+	border-color: #04AA6D;
+	outline: none;
+}
+
+.contact-form button {
+	background: #04AA6D;
+	color: #fff;
+	border: none;
+	padding: 12px;
+	width: 100%;
+	border-radius: 10px;
+	font-size: 16px;
+	cursor: pointer;
+	transition: background .3s ease;
+}
+
+.contact-form button:hover {
+	background: #037a52;
+}
+
+.warning {
+	color: red;
+	margin-bottom: 15px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+	.contact-box {
+		flex-direction: column;
+	}
+
+	.contact-image {
+		height: 250px;
+	}
 }
