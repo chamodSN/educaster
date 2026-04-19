@@ -1,0 +1,342 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --green: #04AA6D;
+    --green-dark: #037a52;
+    --green-light: rgba(4, 170, 109, 0.12);
+    --text: #1a1a2e;
+    --text-muted: #6c757d;
+    --bg: #f8fafb;
+    --white: #ffffff;
+    --border: #e2e8f0;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.10);
+    --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.14);
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 22px;
+    --transition: all 0.3s ease;
+    --font: 'Inter', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font);
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ---- Buttons ---- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--font);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: var(--green);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background: var(--green-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(4, 170, 109, 0.35);
+}
+
+.btn-danger {
+    background: #e74c3c;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--green);
+    border: 2px solid var(--green);
+}
+
+.btn-outline:hover {
+    background: var(--green);
+    color: #fff;
+}
+
+.btn-sm {
+    padding: 6px 16px;
+    font-size: 13px;
+}
+
+/* ---- Input fields ---- */
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text);
+    font-size: 14px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font);
+    font-size: 15px;
+    transition: border-color 0.25s, box-shadow 0.25s;
+    background: var(--white);
+    color: var(--text);
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(4, 170, 109, 0.15);
+}
+
+select.form-control {
+    cursor: pointer;
+}
+
+/* ---- Tables ---- */
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    background: var(--white);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead th {
+    background: var(--green);
+    color: #fff;
+    padding: 14px 18px;
+    font-weight: 700;
+    text-align: left;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+}
+
+tbody tr:hover {
+    background: var(--green-light);
+}
+
+tbody td {
+    padding: 12px 18px;
+    font-size: 14px;
+    color: var(--text);
+}
+
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+/* ---- Status badges ---- */
+.badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+}
+
+.badge-active {
+    background: #d4edda;
+    color: #155724;
+}
+
+.badge-expired {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.badge-pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.badge-complete {
+    background: #cce5ff;
+    color: #004085;
+}
+
+/* ---- Cards ---- */
+.card {
+    background: var(--white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: 28px 24px;
+    transition: var(--transition);
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-md);
+}
+
+/* ---- Alert messages ---- */
+.alert {
+    padding: 12px 18px;
+    border-radius: var(--radius-sm);
+    margin: 16px 0;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.alert-error {
+    background: #fde8e8;
+    color: #c0392b;
+    border-left: 4px solid #e74c3c;
+}
+
+.alert-success {
+    background: #e8fdf3;
+    color: #1e7e34;
+    border-left: 4px solid #04AA6D;
+}
+
+.alert-info {
+    background: #e8f4fd;
+    color: #1a5276;
+    border-left: 4px solid #3498db;
+}
+
+/* ---- Page section wrapper ---- */
+.page-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    flex: 1;
+}
+
+.section-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 8px;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--green), #1abc9c);
+    border-radius: 4px;
+    margin-top: 8px;
+}
+
+.section-subtitle {
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    font-size: 15px;
+}
+
+/* ---- Modal overlay ---- */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-box {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+    width: 90%;
+    max-width: 480px;
+    box-shadow: var(--shadow-lg);
+    animation: modalIn 0.3s ease;
+}
+
+@keyframes modalIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-box h3 {
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.modal-close {
+    float: right;
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: var(--text-muted);
+    padding: 0;
+}
+
+.modal-close:hover {
+    color: var(--text);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+    .page-wrapper {
+        padding: 20px 14px;
+    }
+
+    .section-title {
+        font-size: 22px;
+    }
+}
