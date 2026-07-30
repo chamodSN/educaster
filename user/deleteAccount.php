@@ -1,34 +1,20 @@
 <?php
-session_start();
-
-if (!isset($_SESSION["userData"])) {
-    header("location: login.php");
-    exit();
-}
-
+// user/deleteAccount.php
 require_once '../common/config.php';
+require_once '../common/loginFunctions.php';
+requireLogin();
 
-$userId   = $_SESSION["userData"]["Registered_User_Id"];
-$userName = $_SESSION["userData"]["User_Name"];
+$userId = (int)$_SESSION['userData']['Registered_User_Id'];
 
-$deleteEnrollments = $connection->prepare(
-    "DELETE FROM enrollment WHERE Registered_User_Id = ?"
-);
-
-$deleteEnrollments->bind_param("i", $userId);
-$deleteEnrollments->execute();
-$deleteEnrollments->close();
-
-$deleteUser = $connection->prepare(
-    "DELETE FROM registered_user WHERE Registered_User_Id = ?"
-);
-
-$deleteUser->bind_param("i", $userId);
-$deleteUser->execute();
-$deleteUser->close();
+// Delete dependent records first
+$connection->query("DELETE FROM takes       WHERE Registered_User_Id = $userId");
+$connection->query("DELETE FROM review      WHERE Registered_User_Id = $userId");
+$connection->query("DELETE FROM inquiry     WHERE Registered_User_Id = $userId");
+$connection->query("DELETE FROM enrollment  WHERE Registered_User_Id = $userId");
+$connection->query("DELETE FROM registered_user WHERE Registered_User_Id = $userId");
 
 session_unset();
 session_destroy();
-
-header("location: signup.php?message=accountdeleted");
+header("Location: /educaster/user/signup.php?message=accountdeleted");
 exit();
+?>

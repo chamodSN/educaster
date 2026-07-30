@@ -1,89 +1,345 @@
-.homeImage .image {
-    display: block;
+/* css/home.css */
+
+/* ── Hero ── */
+.hero {
+    background: #1e2a38;
+    color: #fff;
+    padding: 72px 20px;
+    text-align: center;
+}
+
+.hero-inner {
+    max-width: 720px;
     margin: 0 auto;
-    margin-right: auto;
-    padding: 10px 50px;
-    width: 100%;
-    height: auto;
 }
 
-
-/* programmes page css starts here */
-
-
-.course {
-
-    margin: 0px auto;
-    padding: 3px 2px;
+.hero-label {
+    display: inline-block;
+    background: rgba(4, 170, 109, .18);
+    color: #4ede9e;
+    border: 1px solid rgba(4, 170, 109, .35);
+    padding: 5px 14px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    letter-spacing: .5px;
 }
 
-.category .categoryTitle {
-    text-align: left;
-    margin: 0 0 0 15px;
-    color: #333;
-    text-transform: uppercase;
-
+.hero h1 {
+    font-size: clamp(28px, 5vw, 50px);
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    color: #fff;
 }
 
-.category .course .link {
-    text-decoration: none;
-    color: black;
+.hero h1 span {
+    color: #04AA6D;
 }
 
-.category .course_Container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
-    gap: 32px;
-    margin: 0 10px 0 10px;
+.hero p {
+    font-size: 17px;
+    color: rgba(255, 255, 255, .75);
+    max-width: 560px;
+    margin: 0 auto 32px;
+    line-height: 1.7;
 }
 
-.category .course_Container .course {
-    text-align: center;
-    padding: 48px 32px;
-    background-color: #f4f2f1;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-    outline: 1.6px solid #171717;
-    outline-offset: -24px;
+.hero-btns {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.hero-btns .btn-white {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    background: rgba(255, 255, 255, .12);
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, .3);
+    border-radius: 6px;
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
     cursor: pointer;
-}
-
-.category .course_Container .course:hover {
-    outline: 3.2px solid #5d5353;
-    outline-offset: 0;
-}
-
-.category .course_Container .course img {
-    width: 100%;
-    height: auto;
-
-}
-
-.intro {
-    margin: 0 10px 0 10px;
-    background-color: #f4f2f1;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-    padding: 20px;
-}
-
-.intro .para {
-    font-size: 20px;
-    text-align: center;
-}
-
-.intro p:first-of-type::first-letter {
-    font-size: 30px;
-    font-weight: bold;
-}
-
-.intro .para a {
     text-decoration: none;
+    transition: background 0.2s ease;
 }
 
-.status {
+.hero-btns .btn-white:hover {
+    background: rgba(255, 255, 255, .22);
+}
+
+/* ── Features bar ── */
+.features-bar {
+    background: #04AA6D;
+    padding: 14px 20px;
+}
+
+.features-bar-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 36px;
+    flex-wrap: wrap;
+}
+
+.feat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.feat-item i {
+    font-size: 16px;
+}
+
+/* ── Why section ── */
+.why-section {
+    padding: 56px 20px;
+    background: #fff;
+}
+
+.why-section .inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.why-section h2 {
+    font-size: 26px;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.why-section .sub {
+    text-align: center;
+    color: #666;
+    font-size: 15px;
+    margin-bottom: 36px;
+}
+
+.why-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
-    gap: 32px;
-    margin: 0 0 0 128px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 22px;
+}
 
+.why-card {
+    background: #f9fafb;
+    border-radius: 10px;
+    padding: 28px 22px;
+    text-align: center;
+    border-bottom: 3px solid transparent;
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
 
+.why-card:hover {
+    border-bottom-color: #04AA6D;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .09);
+}
+
+.why-card i {
+    font-size: 36px;
+    color: #04AA6D;
+    margin-bottom: 14px;
+}
+
+.why-card h4 {
+    font-size: 16px;
+    font-weight: 900;
+    margin-bottom: 8px;
+}
+
+.why-card p {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* ── Stats band ── */
+.stats-band {
+    background: #1e2a38;
+    padding: 48px 20px;
+}
+
+.stats-band .inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+}
+
+.stat-box {
+    text-align: center;
+    color: #fff;
+    padding: 28px 20px;
+    background: rgba(255, 255, 255, .06);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, .08);
+    transition: background 0.2s ease;
+}
+
+.stat-box:hover {
+    background: rgba(4, 170, 109, .18);
+}
+
+.stat-box i {
+    font-size: 30px;
+    color: #04AA6D;
+    margin-bottom: 10px;
+}
+
+.stat-box h2 {
+    font-size: 34px;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 4px;
+}
+
+.stat-box p {
+    font-size: 13px;
+    color: rgba(255, 255, 255, .55);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+/* ── Popular courses ── */
+.popular-section {
+    padding: 56px 20px;
+}
+
+.popular-section .inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.popular-section .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.popular-section h2 {
+    font-size: 24px;
+    font-weight: 900;
+    border-bottom: 3px solid #04AA6D;
+    padding-bottom: 6px;
+    display: inline-block;
+}
+
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 22px;
+}
+
+/* ── Course card (shared with programs.php) ── */
+.course-card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+    text-decoration: none;
+    color: #222;
+    display: block;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .13);
+}
+
+.course-card .c-img {
+    height: 176px;
+    overflow: hidden;
+}
+
+.course-card .c-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.course-card:hover .c-img img {
+    transform: scale(1.05);
+}
+
+.course-card .c-body {
+    padding: 16px;
+}
+
+.course-card .c-body h4 {
+    font-size: 15px;
+    font-weight: 900;
+    margin: 6px 0 8px;
+    line-height: 1.4;
+}
+
+.course-card .c-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: #888;
+}
+
+.course-card .c-meta .stars {
+    color: #f59e0b;
+    letter-spacing: 2px;
+}
+
+/* ── CTA strip ── */
+.cta-strip {
+    background: #04AA6D;
+    padding: 48px 20px;
+    text-align: center;
+    color: #fff;
+}
+
+.cta-strip h2 {
+    font-size: 26px;
+    font-weight: 900;
+    margin-bottom: 10px;
+}
+
+.cta-strip p {
+    font-size: 16px;
+    color: rgba(255, 255, 255, .85);
+    margin-bottom: 24px;
+}
+
+.cta-strip .btn-white {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    background: #fff;
+    color: #04AA6D;
+    border-radius: 6px;
+    font-weight: 900;
+    font-size: 16px;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.cta-strip .btn-white:hover {
+    background: #e8f8f0;
+    transform: translateY(-2px);
 }

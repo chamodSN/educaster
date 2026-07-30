@@ -1,5 +1,6 @@
 /uploads/
 /video/
+/PDF/
 
 /xampp/
 /htdocs/
@@ -8,7 +9,6 @@ php_error.log
 
 .env
 .env.*
-common/config.php
 
 /tmp/
 /cache/

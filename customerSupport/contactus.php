@@ -1,107 +1,83 @@
 <?php
-require '../common/config.php';
-session_start();
+// customerSupport/contactUs.php
+require_once '../common/config.php';
+require_once '../common/loginFunctions.php';
 
-$loggedIn = isset($_SESSION["userData"]);
-$uid = $loggedIn ? $_SESSION["userData"]["Registered_User_Id"] : null;
-$email = $loggedIn ? $_SESSION["userData"]["Email"] : "";
-$inquiries = [];
+$submitted = false;
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_inquiry'])) {
+    $email    = trim($_POST['email'] ?? ($_SESSION['userData']['Email'] ?? ''));
+    $subject  = trim($_POST['subject'] ?? '');
+    $message  = trim($_POST['message'] ?? '');
+    $courseId = (int)($_POST['course_id'] ?? 0) ?: null;
+    $userId   = $_SESSION['userData']['Registered_User_Id'] ?? null;
 
-if ($loggedIn) {
-    $query = "SELECT * FROM enquiry WHERE Registered_User_Id = $uid";
-    $result = $connection->query($query);
-    $inquiries = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
+    if (!empty($email) && !empty($subject) && !empty($message)) {
+        $stmt = $connection->prepare("INSERT INTO inquiry (Registered_User_Id, Email, Subject, Message, Course_Id) VALUES (?,?,?,?,?)");
+        $stmt->bind_param("isssi", $userId, $email, $subject, $message, $courseId);
+        $stmt->execute();
+        $submitted = true;
+    }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Contact Us - Educaster</title>
-    <link rel="stylesheet" href="../css/contactus.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us — Educaster</title>
+  <link rel="stylesheet" href="/educaster/css/global.css">
+  <link rel="stylesheet" href="/educaster/css/header.css">
+  <link rel="stylesheet" href="/educaster/css/footer.css">
+  <link rel="stylesheet" href="/educaster/css/contact.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
 </head>
 <body>
-
 <?php include '../common/header.php'; ?>
+<section class="contact-hero"><div class="page-wrapper"><h1>Contact Us</h1><p>We'd love to hear from you. Reach out anytime.</p></div></section>
 
-<h2 class="intro">We are here to support you!</h2>
-
-<div class="meetus-wrapper">
-    <div class="meetus-container">
-        <p class="topic">Meet Us</p><br>
-        <i class="fa fa-phone"></i> +94 711212125<br>
-        <i class="fa fa-map-marker"></i> No 167, New Kandy Road, Malabe.<br>
-        <i class="fa fa-envelope"></i> info@educaster.com<br>
+<div class="page-wrapper">
+  <div class="contact-grid">
+    <!-- Info Cards -->
+    <div class="contact-info">
+      <div class="info-card"><i class="fas fa-envelope"></i><h4>Email Us</h4><p>support@educaster.com</p></div>
+      <div class="info-card"><i class="fas fa-phone"></i><h4>Call Us</h4><p>+94 11 234 5678</p></div>
+      <div class="info-card"><i class="fas fa-map-marker-alt"></i><h4>Location</h4><p>Colombo, Sri Lanka</p></div>
+      <?php if (isLoggedIn()): ?>
+      <a href="myInquiries.php" class="info-card" style="text-decoration:none;color:inherit;border-color:var(--green)">
+        <i class="fas fa-list" style="color:var(--green)"></i><h4>My Inquiries</h4><p>View & track your messages</p>
+      </a>
+      <?php endif; ?>
     </div>
-</div>
 
-<div class="wrapper">
-    <div class="contact-container">
-        <p class="topic">Share your thoughts or questions with us.</p><br>
-
-        <?php if (!$loggedIn): ?>
-            <p style="color:red;">Please log in to send inquiries.</p>
-        <?php endif; ?>
-
-        <form method="POST" action="sendInq.php">
-            Email:<br>
-            <input type="email" name="Email" value="<?= htmlspecialchars($email) ?>" <?= !$loggedIn ? 'disabled' : '' ?> required><br>
-
-            Telephone:<br>
-            <input type="tel" name="phone" maxlength="10" placeholder="+94XXXXXXXXX" <?= !$loggedIn ? 'disabled' : '' ?> required><br>
-
-            Subject of your enquiry:<br>
-            <input type="text" name="Enquiry" placeholder="What is this about?" <?= !$loggedIn ? 'disabled' : '' ?> required><br><br/>
-
-            Enquiry:<br>
-            <textarea name="Details" rows="8" placeholder="How can we assist you?" <?= !$loggedIn ? 'disabled' : '' ?> required></textarea><br>
-
-            <input type="submit" value="Submit" <?= !$loggedIn ? 'disabled' : '' ?>>
-        </form>
-    </div>
-</div>
-
-<?php if ($loggedIn): ?>
-    <div class="wrapper">
-        <div class="contact-container">
-            <h3 class="topic">Your Previous Inquiries</h3><br>
-            <?php if (count($inquiries) > 0): ?>
-                <table border="1" cellpadding="5">
-                    <tr>
-                        <th>Subject</th>
-                        <th>Message</th>
-                        <th>Phone</th>
-                        <th>Date</th>
-                        <th>Actions</th>
-                    </tr>
-                    <?php foreach ($inquiries as $row): ?>
-                        <tr>
-                            <form action="updateInq.php" method="POST">
-                                <input type="hidden" name="id" value="<?= $row['Enquiry_Id'] ?>">
-                                <td><input type="text" name="Enquiry" value="<?= htmlspecialchars($row['Enq_Subject']) ?>" required></td>
-                                <td><textarea name="Details" rows="3"><?= htmlspecialchars($row['Enquiry']) ?></textarea></td>
-                                <td><input type="text" name="phone" value="<?= $row['phone_Number'] ?>" required></td>
-                                <input type="hidden" name="Email" value="<?= htmlspecialchars($row['Email']) ?>">
-                                <td><?= $row['Date'] ?></td>
-                                <td>
-                                    <input type="submit" value="Update">
-                            </form>
-                            <form action="deleteInq.php" method="POST" onsubmit="return confirm('Are you sure?');" style="display:inline;">
-                                <input type="hidden" name="id" value="<?= $row['Enquiry_Id'] ?>">
-                                <input type="submit" value="Delete">
-                            </form>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </table>
-            <?php else: ?>
-                <p>No previous inquiries found.</p>
-            <?php endif; ?>
+    <!-- Form -->
+    <div class="contact-form-box">
+      <?php if ($submitted): ?>
+        <div class="alert alert-success"><i class="fas fa-check-circle"></i> Your inquiry has been sent! We'll get back to you soon.</div>
+      <?php endif; ?>
+      <h2>Send a Message</h2>
+      <form action="contactUs.php" method="POST">
+        <div class="form-group">
+          <label>Your Email <span class="req">*</span></label>
+          <input type="email" name="email" class="form-control" value="<?= htmlspecialchars($_SESSION['userData']['Email'] ?? '') ?>" required placeholder="you@email.com">
         </div>
+        <div class="form-group">
+          <label>Subject <span class="req">*</span></label>
+          <input type="text" name="subject" class="form-control" required placeholder="How can we help?" value="<?= htmlspecialchars($_GET['subject'] ?? '') ?>">
+        </div>
+        <?php if (isset($_GET['course_id'])): ?>
+          <input type="hidden" name="course_id" value="<?= (int)$_GET['course_id'] ?>">
+        <?php endif; ?>
+        <div class="form-group">
+          <label>Message <span class="req">*</span></label>
+          <textarea name="message" class="form-control" rows="6" required placeholder="Tell us more..."><?= htmlspecialchars($_POST['message'] ?? '') ?></textarea>
+        </div>
+        <button type="submit" name="submit_inquiry" class="btn btn-primary" style="width:100%;justify-content:center;padding:13px">
+          <i class="fas fa-paper-plane"></i> Send Message
+        </button>
+      </form>
     </div>
-<?php endif; ?>
-
+  </div>
+</div>
 <?php include '../common/footer.php'; ?>
 </body>
 </html>

@@ -1,24 +1,20 @@
 <?php
-session_start();
-require '../common/config.php';
+// courses/enroll.php
+require_once '../common/config.php';
+require_once '../common/loginFunctions.php';
+requireLogin();
 
-if (!isset($_SESSION['userData'])) {
-    header("Location: /educaster/user/login.php");
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $courseId = (int)($_POST['course_id'] ?? 0);
+    $userId   = (int)$_SESSION['userData']['Registered_User_Id'];
+
+    $stmt = $connection->prepare("INSERT IGNORE INTO enrollment (Registered_User_Id, Course_Id) VALUES (?,?)");
+    $stmt->bind_param("ii", $userId, $courseId);
+    $stmt->execute();
+
+    header("Location: /educaster/courses/course_overview.php?id=$courseId&enrolled=1");
     exit();
 }
-
-$userId = $_SESSION['userData']['Registered_User_Id'];
-$courseId = intval($_POST['course_id'] ?? 0);
-
-if (!$courseId) {
-    die("Invalid course.");
-}
-
-// Check if already enrolled
-$res = $connection->query("SELECT * FROM Enrollment WHERE Registered_User_Id = $userId AND Course_Id = $courseId");
-if ($res->num_rows === 0) {
-    $connection->query("INSERT INTO Enrollment (Registered_User_Id, Course_Id) VALUES ($userId, $courseId)");
-}
-
-header("Location: course_detail.php?id=$courseId");
+header("Location: /educaster/programs.php");
 exit();
+?>

@@ -1,0 +1,94 @@
+/* css/dashboard.css */
+
+/* ── Welcome bar ── */
+.dash-welcome {
+    background: #1e2a38;
+    border-radius: 10px;
+    padding: 28px 32px;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.dash-welcome h1 {
+    font-size: 22px;
+    font-weight: 900;
+    margin-bottom: 4px;
+}
+
+.dash-welcome p {
+    font-size: 14px;
+    color: rgba(255, 255, 255, .65);
+}
+
+/* ── Stat cards row ── */
+.dash-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.dash-stat {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .07);
+    text-decoration: none;
+    color: #222;
+    border-left: 4px solid #04AA6D;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dash-stat:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .11);
+}
+
+.dash-stat i {
+    font-size: 26px;
+    color: #04AA6D;
+    flex-shrink: 0;
+}
+
+.dash-stat strong {
+    display: block;
+    font-size: 22px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.dash-stat span {
+    font-size: 12px;
+    color: #888;
+    margin-top: 3px;
+    display: block;
+}
+
+/* ── Search ── */
+.dash-search {
+    margin-bottom: 16px;
+}
+
+.dash-search input {
+    max-width: 360px;
+    padding: 9px 13px;
+    border: 1.5px solid #d0d5dd;
+    border-radius: 6px;
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    width: 100%;
+}
+
+.dash-search input:focus {
+    outline: none;
+    border-color: #04AA6D;
+    box-shadow: 0 0 0 3px rgba(4, 170, 109, .12);
+}
