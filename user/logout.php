@@ -1,7 +1,8 @@
 <?php
-    session_start();
-    session_unset();
-    session_destroy();
-    header("location:../user/login.php");
-    exit();
+// user/logout.php
+session_start();
+session_unset();
+session_destroy();
+header("Location: /educaster/user/login.php");
+exit();
 ?>

@@ -1,0 +1,221 @@
+/* css/contact.css — Updated with wider layout */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+.contact-hero {
+	background: linear-gradient(135deg, #0d2137, #1a3a5c);
+	padding: 70px 0;
+	text-align: center;
+	color: #fff;
+}
+
+.contact-hero h1 {
+	font-size: clamp(28px, 4vw, 46px);
+	font-weight: 900;
+	margin-bottom: 12px;
+}
+
+.contact-hero p {
+	font-size: 17px;
+	color: rgba(255, 255, 255, 0.8);
+}
+
+/* ── Main wider layout ── */
+.contact-grid {
+	display: grid;
+	grid-template-columns: 300px 1fr;
+	/* wider: was 280px 1fr */
+	gap: 36px;
+	margin-top: 52px;
+	margin-bottom: 60px;
+	max-width: 1100px;
+	/* wider overall max */
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0 20px;
+}
+
+/* Info sidebar cards */
+.contact-info {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.info-card {
+	background: var(--white);
+	border-radius: var(--radius-md);
+	padding: 24px;
+	box-shadow: var(--shadow-sm);
+	border-left: 4px solid var(--green);
+	transition: var(--transition);
+	text-decoration: none;
+	color: var(--text);
+	display: block;
+}
+
+.info-card:hover {
+	transform: translateY(-4px);
+	box-shadow: var(--shadow-md);
+	border-left-color: var(--green-dark);
+}
+
+.info-card i {
+	font-size: 24px;
+	color: var(--green);
+	margin-bottom: 10px;
+	display: block;
+}
+
+.info-card h4 {
+	font-size: 15px;
+	font-weight: 700;
+	margin-bottom: 5px;
+}
+
+.info-card p {
+	font-size: 14px;
+	color: var(--text-muted);
+}
+
+/* Form box — much wider now */
+.contact-form-box {
+	background: var(--white);
+	border-radius: var(--radius-lg);
+	padding: 48px 52px;
+	/* more horizontal padding */
+	box-shadow: var(--shadow-sm);
+	border: 1px solid var(--border);
+}
+
+.contact-form-box h2 {
+	font-size: 26px;
+	font-weight: 800;
+	margin-bottom: 28px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.contact-form-box h2 i {
+	color: var(--green);
+}
+
+.contact-form-box .form-control {
+	width: 100%;
+	padding: 13px 16px;
+	border: 1.5px solid var(--border);
+	border-radius: var(--radius-sm);
+	font-size: 15px;
+	transition: border-color 0.25s, box-shadow 0.25s;
+	background: var(--white);
+	font-family: var(--font);
+}
+
+.contact-form-box .form-control:focus {
+	border-color: var(--green);
+	box-shadow: 0 0 0 3px rgba(4, 170, 109, 0.15);
+	outline: none;
+}
+
+/* Two-column row for email/subject */
+.contact-form-row {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 18px;
+}
+
+/* Inquiry list (myInquiries page) */
+.inquiry-list {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+}
+
+.inquiry-card {
+	background: var(--white);
+	border-radius: var(--radius-md);
+	padding: 24px 28px;
+	box-shadow: var(--shadow-sm);
+	border-left: 5px solid var(--border);
+	transition: var(--transition);
+}
+
+.inquiry-card:hover {
+	box-shadow: var(--shadow-md);
+}
+
+.inquiry-card.replied {
+	border-left-color: var(--green);
+}
+
+.inquiry-card.pending {
+	border-left-color: #f39c12;
+}
+
+.inquiry-card-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	margin-bottom: 12px;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.inquiry-meta {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+.inquiry-msg {
+	color: var(--text-muted);
+	font-size: 14px;
+	line-height: 1.7;
+	margin-bottom: 14px;
+}
+
+.inquiry-reply {
+	background: var(--green-light);
+	border-radius: var(--radius-sm);
+	padding: 14px 18px;
+	font-size: 14px;
+	margin-bottom: 14px;
+	display: flex;
+	gap: 10px;
+	align-items: flex-start;
+	border-left: 3px solid var(--green);
+}
+
+.inquiry-reply i {
+	color: var(--green);
+	flex-shrink: 0;
+	margin-top: 2px;
+}
+
+.inquiry-actions {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+	.contact-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.contact-form-box {
+		padding: 28px 24px;
+	}
+
+	.contact-form-row {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 600px) {
+	.contact-form-box {
+		padding: 22px 18px;
+	}
+}

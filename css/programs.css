@@ -1,0 +1,275 @@
+/* css/programs.css */
+
+/* ── Hero ── */
+.prog-hero {
+    background: #1e2a38;
+    padding: 60px 20px;
+    text-align: center;
+    color: #fff;
+}
+
+.prog-hero h1 {
+    font-size: clamp(24px, 4vw, 42px);
+    font-weight: 900;
+    margin-bottom: 10px;
+}
+
+.prog-hero p {
+    color: rgba(255, 255, 255, .72);
+    font-size: 16px;
+    margin-bottom: 28px;
+}
+
+.prog-search-wrap {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    background: rgba(255, 255, 255, .1);
+    border: 1.5px solid rgba(255, 255, 255, .22);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.prog-search-wrap input {
+    flex: 1;
+    padding: 11px 16px;
+    background: none;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+}
+
+.prog-search-wrap input::placeholder {
+    color: rgba(255, 255, 255, .45);
+}
+
+.prog-search-wrap button {
+    padding: 11px 18px;
+    background: #04AA6D;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 15px;
+    transition: background 0.2s ease;
+}
+
+.prog-search-wrap button:hover {
+    background: #037a52;
+}
+
+/* ── Layout ── */
+.prog-layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 28px;
+    padding-top: 36px;
+    padding-bottom: 56px;
+    align-items: start;
+}
+
+/* ── Sidebar ── */
+.prog-sidebar {
+    position: sticky;
+    top: 80px;
+}
+
+.filter-box {
+    background: #fff;
+    border-radius: 10px;
+    padding: 22px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+}
+
+.filter-box h3 {
+    font-size: 15px;
+    font-weight: 900;
+    margin-bottom: 18px;
+    color: #1e2a38;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.filter-box h3 i {
+    color: #04AA6D;
+}
+
+.filter-group {
+    margin-bottom: 20px;
+}
+
+.filter-group-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .7px;
+    color: #999;
+    margin-bottom: 10px;
+}
+
+.filter-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 4px 0;
+    color: #333;
+    transition: color 0.15s ease;
+}
+
+.filter-option:hover {
+    color: #04AA6D;
+}
+
+.filter-option input[type="radio"] {
+    accent-color: #04AA6D;
+    width: 15px;
+    height: 15px;
+}
+
+/* ── Toolbar ── */
+.prog-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.result-count {
+    font-size: 14px;
+    color: #666;
+}
+
+/* ── Cards grid ── */
+.prog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 20px;
+}
+
+.prog-card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+    text-decoration: none;
+    color: #222;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.prog-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .13);
+}
+
+.prog-card .p-img {
+    height: 175px;
+    overflow: hidden;
+    position: relative;
+}
+
+.prog-card .p-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.prog-card:hover .p-img img {
+    transform: scale(1.05);
+}
+
+.status-dot {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 3px 9px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.status-dot.active {
+    background: #04AA6D;
+    color: #fff;
+}
+
+.status-dot.expired {
+    background: #e03e3e;
+    color: #fff;
+}
+
+.prog-card .p-body {
+    padding: 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.prog-card .p-body h4 {
+    font-size: 15px;
+    font-weight: 900;
+    margin: 6px 0 8px;
+    line-height: 1.4;
+}
+
+.prog-card .p-desc {
+    font-size: 13px;
+    color: #888;
+    line-height: 1.6;
+    margin-bottom: 12px;
+    flex: 1;
+}
+
+.prog-card .p-meta {
+    display: flex;
+    gap: 12px;
+    font-size: 12px;
+    color: #888;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.prog-card .p-meta .stars {
+    color: #f59e0b;
+}
+
+.prog-card .p-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+    font-size: 13px;
+}
+
+.prog-card .p-instructor {
+    color: #888;
+}
+
+.prog-card .p-enroll {
+    color: #04AA6D;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+@media (max-width: 820px) {
+    .prog-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .prog-sidebar {
+        position: static;
+    }
+}

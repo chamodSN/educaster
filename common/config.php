@@ -1,28 +1,31 @@
 <?php
+// common/config.php
 
-// Load .env file
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 $envPath = __DIR__ . '/../.env';
-
 if (!file_exists($envPath)) {
-    die('.env file not found');
+    die('Configuration error: .env file not found.');
 }
 
 $env = parse_ini_file($envPath);
 
-// Declare variables from .env
-$serverName = $env['DB_HOST'] . ':' . $env['DB_PORT'];
+$serverName = $env['DB_HOST'];
 $userName   = $env['DB_USER'];
 $password   = $env['DB_PASS'];
 $dbName     = $env['DB_NAME'];
 
-// Create the connection
 $connection = new mysqli($serverName, $userName, $password, $dbName);
 
-// Check connection
 if ($connection->connect_error) {
-    die("Connection failed: " . $connection->connect_error);
-} else {
-    echo "<script>console.log('Connection Successful')</script>";
+    die("Database connection failed: " . $connection->connect_error);
 }
 
+$connection->set_charset("utf8mb4");
+
+// Make admin credentials available
+define('ADMIN_EMAIL', $env['ADMIN_EMAIL'] ?? 'admin@educaster.com');
+define('ADMIN_PASSWORD', $env['ADMIN_PASSWORD'] ?? 'Admin@2025');
 ?>
