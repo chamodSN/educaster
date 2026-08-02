@@ -1,15 +1,15 @@
 /* css/terms.css */
 
 .terms-hero {
-    background: #1e2a38;
-    padding: 58px 20px;
+    background: linear-gradient(135deg, var(--ink), var(--green-darker));
+    padding: 56px 24px;
     text-align: center;
     color: #fff;
 }
 
 .terms-hero h1 {
     font-size: clamp(24px, 4vw, 40px);
-    font-weight: 900;
+    color: #fff;
     margin-bottom: 10px;
 }
 
@@ -20,10 +20,8 @@
 
 .terms-page {
     padding-top: 36px;
-    padding-bottom: 56px;
 }
 
-/* ── Tab buttons ── */
 .terms-tabs {
     display: flex;
     gap: 8px;
@@ -31,84 +29,81 @@
     flex-wrap: wrap;
 }
 
-.t-tab {
+.terms-tab {
     display: flex;
     align-items: center;
     gap: 7px;
-    padding: 9px 20px;
-    background: #fff;
-    border: 2px solid #d0d5dd;
-    border-radius: 6px;
-    font-family: 'Lato', sans-serif;
+    padding: 10px 20px;
+    background: var(--white);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
     font-size: 14px;
     font-weight: 700;
-    color: #555;
+    color: var(--text-muted);
     cursor: pointer;
-    transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+    transition: var(--transition);
 }
 
-.t-tab:hover {
-    border-color: #04AA6D;
-    color: #04AA6D;
+.terms-tab:hover {
+    border-color: var(--green);
+    color: var(--green);
 }
 
-.t-tab.active {
-    background: #04AA6D;
-    border-color: #04AA6D;
+.terms-tab.active {
+    background: var(--green);
+    border-color: var(--green);
     color: #fff;
 }
 
-/* ── Panels ── */
-.t-panel {
+/* FIX: previously this checked for a ".open" class that main.js never
+   set (it toggled ".active" instead), so switching tabs did nothing. */
+.terms-panel {
     display: none;
 }
 
-.t-panel.open {
+.terms-panel.active {
     display: block;
+    animation: fade-up .4s ease;
 }
 
-.t-panel h2 {
+.terms-panel h2 {
     font-size: 24px;
-    font-weight: 900;
     margin-bottom: 6px;
     display: flex;
     align-items: center;
     gap: 9px;
-    color: #1e2a38;
 }
 
-.t-panel h2 i {
-    color: #04AA6D;
+.terms-panel h2 i {
+    color: var(--green);
 }
 
 .t-updated {
     font-size: 13px;
-    color: #aaa;
+    color: var(--text-muted);
     margin-bottom: 28px;
     padding-bottom: 18px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border);
 }
 
-/* ── Sections ── */
 .t-section {
-    background: #fff;
-    border-radius: 8px;
+    background: var(--white);
+    border-radius: var(--radius-sm);
     padding: 22px 24px;
     margin-bottom: 14px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, .06);
-    border-left: 4px solid #04AA6D;
+    box-shadow: var(--shadow-sm);
+    border-left: 4px solid var(--green);
 }
 
 .t-section h3 {
     font-size: 15px;
-    font-weight: 900;
-    color: #1e2a38;
     margin-bottom: 10px;
 }
 
 .t-section p {
     font-size: 14px;
-    color: #555;
+    color: var(--text-muted);
     line-height: 1.75;
     margin-bottom: 8px;
 }
@@ -118,10 +113,6 @@
 }
 
 .t-section a {
-    color: #04AA6D;
+    color: var(--green);
     font-weight: 700;
-}
-
-.t-section strong {
-    color: #333;
 }

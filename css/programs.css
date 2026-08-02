@@ -1,21 +1,20 @@
 /* css/programs.css */
 
-/* ── Hero ── */
 .prog-hero {
-    background: #1e2a38;
-    padding: 60px 20px;
+    background: linear-gradient(135deg, var(--ink), var(--green-darker));
+    padding: 60px 24px 74px;
     text-align: center;
     color: #fff;
 }
 
 .prog-hero h1 {
     font-size: clamp(24px, 4vw, 42px);
-    font-weight: 900;
+    color: #fff;
     margin-bottom: 10px;
 }
 
 .prog-hero p {
-    color: rgba(255, 255, 255, .72);
+    color: rgba(255, 255, 255, .74);
     font-size: 16px;
     margin-bottom: 28px;
 }
@@ -26,18 +25,23 @@
     display: flex;
     background: rgba(255, 255, 255, .1);
     border: 1.5px solid rgba(255, 255, 255, .22);
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
     overflow: hidden;
+}
+
+.prog-search-wrap i {
+    align-self: center;
+    margin-left: 16px;
+    color: rgba(255, 255, 255, .5);
 }
 
 .prog-search-wrap input {
     flex: 1;
-    padding: 11px 16px;
+    padding: 13px 14px;
     background: none;
     border: none;
     outline: none;
     color: #fff;
-    font-family: 'Lato', sans-serif;
     font-size: 15px;
 }
 
@@ -45,55 +49,41 @@
     color: rgba(255, 255, 255, .45);
 }
 
-.prog-search-wrap button {
-    padding: 11px 18px;
-    background: #04AA6D;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    font-size: 15px;
-    transition: background 0.2s ease;
+.prog-search-wrap .btn {
+    border-radius: 0;
 }
 
-.prog-search-wrap button:hover {
-    background: #037a52;
-}
-
-/* ── Layout ── */
 .prog-layout {
     display: grid;
-    grid-template-columns: 240px 1fr;
-    gap: 28px;
-    padding-top: 36px;
-    padding-bottom: 56px;
+    grid-template-columns: 250px 1fr;
+    gap: 30px;
+    padding-top: 8px;
     align-items: start;
 }
 
-/* ── Sidebar ── */
 .prog-sidebar {
     position: sticky;
-    top: 80px;
+    top: 88px;
 }
 
 .filter-box {
-    background: #fff;
-    border-radius: 10px;
-    padding: 22px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+    background: var(--white);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
 }
 
 .filter-box h3 {
     font-size: 15px;
-    font-weight: 900;
     margin-bottom: 18px;
-    color: #1e2a38;
     display: flex;
     align-items: center;
     gap: 7px;
 }
 
 .filter-box h3 i {
-    color: #04AA6D;
+    color: var(--green);
 }
 
 .filter-group {
@@ -106,47 +96,22 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: .7px;
-    color: #999;
+    color: var(--text-muted);
     margin-bottom: 10px;
 }
 
-.filter-option {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    cursor: pointer;
-    padding: 4px 0;
-    color: #333;
-    transition: color 0.15s ease;
-}
-
-.filter-option:hover {
-    color: #04AA6D;
-}
-
-.filter-option input[type="radio"] {
-    accent-color: #04AA6D;
-    width: 15px;
-    height: 15px;
-}
-
-/* ── Toolbar ── */
 .prog-toolbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 18px;
-    flex-wrap: wrap;
-    gap: 8px;
 }
 
 .result-count {
     font-size: 14px;
-    color: #666;
+    color: var(--text-muted);
 }
 
-/* ── Cards grid ── */
 .prog-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
@@ -154,44 +119,55 @@
 }
 
 .prog-card {
-    background: #fff;
-    border-radius: 10px;
+    background: var(--white);
+    border-radius: var(--radius-md);
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+    box-shadow: var(--shadow-sm);
     text-decoration: none;
-    color: #222;
+    color: var(--text);
     display: flex;
     flex-direction: column;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: var(--transition);
 }
 
 .prog-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, .13);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
 }
 
-.prog-card .p-img {
-    height: 175px;
+.p-img {
+    height: 172px;
     overflow: hidden;
     position: relative;
 }
 
-.prog-card .p-img img {
+.p-img img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.4s ease;
+    transition: transform .4s ease;
 }
 
 .prog-card:hover .p-img img {
-    transform: scale(1.05);
+    transform: scale(1.06);
+}
+
+.img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--green), var(--green-dark));
+    color: rgba(255, 255, 255, .5);
+    font-size: 36px;
 }
 
 .status-dot {
     position: absolute;
     top: 10px;
     left: 10px;
-    padding: 3px 9px;
+    padding: 3px 10px;
     border-radius: 4px;
     font-size: 11px;
     font-weight: 700;
@@ -199,65 +175,61 @@
 }
 
 .status-dot.active {
-    background: #04AA6D;
+    background: var(--green);
     color: #fff;
 }
 
 .status-dot.expired {
-    background: #e03e3e;
+    background: var(--red);
     color: #fff;
 }
 
-.prog-card .p-body {
+.p-body {
     padding: 16px;
     flex: 1;
     display: flex;
     flex-direction: column;
 }
 
-.prog-card .p-body h4 {
+.p-body h4 {
     font-size: 15px;
-    font-weight: 900;
     margin: 6px 0 8px;
     line-height: 1.4;
 }
 
-.prog-card .p-desc {
+.p-desc {
     font-size: 13px;
-    color: #888;
+    color: var(--text-muted);
     line-height: 1.6;
     margin-bottom: 12px;
     flex: 1;
 }
 
-.prog-card .p-meta {
+.p-meta {
     display: flex;
     gap: 12px;
     font-size: 12px;
-    color: #888;
+    color: var(--text-muted);
     flex-wrap: wrap;
     margin-bottom: 12px;
+    align-items: center;
 }
 
-.prog-card .p-meta .stars {
-    color: #f59e0b;
-}
-
-.prog-card .p-footer {
+.p-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-top: 10px;
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--border);
     font-size: 13px;
 }
 
-.prog-card .p-instructor {
-    color: #888;
+.p-instructor {
+    color: var(--text-muted);
 }
 
-.prog-card .p-enroll {
-    color: #04AA6D;
+.p-enroll {
+    color: var(--green);
     font-weight: 700;
     display: flex;
     align-items: center;

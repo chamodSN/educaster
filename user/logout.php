@@ -1,8 +1,20 @@
 <?php
 // user/logout.php
-session_start();
-session_unset();
+require_once '../common/config.php';
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: ' . BASE_PATH . '/user/login.php');
+    exit();
+}
+
+verify_csrf();
+
+$_SESSION = [];
+if (ini_get('session.use_cookies')) {
+    $params = session_get_cookie_params();
+    setcookie(session_name(), '', time() - 42000, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
+}
 session_destroy();
-header("Location: /educaster/user/login.php");
+
+header('Location: ' . BASE_PATH . '/user/login.php?loggedout=1');
 exit();
-?>

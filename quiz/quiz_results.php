@@ -4,18 +4,27 @@ require_once '../common/config.php';
 require_once '../common/loginFunctions.php';
 requireLogin();
 
-$userId    = (int)$_SESSION['userData']['Registered_User_Id'];
-$courseId  = (int)($_GET['course_id'] ?? 0);
+$userId   = currentUserId();
+$courseId = (int) ($_GET['course_id'] ?? 0);
 
-$results = $connection->query(
-    "SELECT t.*, q.Title AS quiz_title, c.Title AS course_title, c.Course_Id
-     FROM takes t
-     JOIN quiz q ON q.Quiz_Id = t.Quiz_Id
-     JOIN course c ON c.Course_Id = q.Course_Id
-     WHERE t.Registered_User_Id = $userId
-     " . ($courseId ? "AND c.Course_Id = $courseId" : "") . "
-     ORDER BY t.Taken_At DESC"
-);
+$sql = "SELECT t.*, q.Title AS quiz_title, c.Title AS course_title, c.Course_Id
+        FROM takes t
+        JOIN quiz q ON q.Quiz_Id = t.Quiz_Id
+        JOIN course c ON c.Course_Id = q.Course_Id
+        WHERE t.Registered_User_Id = ?";
+$types  = 'i';
+$params = [$userId];
+if ($courseId) {
+    $sql .= ' AND c.Course_Id = ?';
+    $types .= 'i';
+    $params[] = $courseId;
+}
+$sql .= ' ORDER BY t.Taken_At DESC';
+
+$stmt = $connection->prepare($sql);
+$stmt->bind_param($types, ...$params);
+$stmt->execute();
+$results = $stmt->get_result();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,11 +32,11 @@ $results = $connection->query(
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quiz Results — Educaster</title>
-  <link rel="stylesheet" href="/educaster/css/global.css">
-  <link rel="stylesheet" href="/educaster/css/header.css">
-  <link rel="stylesheet" href="/educaster/css/footer.css">
-  <link rel="stylesheet" href="/educaster/css/quiz.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/css/global.css">
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/css/header.css">
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/css/footer.css">
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/css/quiz.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 <?php include '../common/header.php'; ?>
@@ -40,7 +49,7 @@ $results = $connection->query(
     <i class="fas fa-chart-bar"></i>
     <h3>No quiz results yet</h3>
     <p>Complete a course quiz to see your results here.</p>
-    <a href="/educaster/programs.php" class="btn btn-primary">Browse Courses</a>
+    <a href="<?= BASE_PATH ?>/programs.php" class="btn btn-primary">Browse Courses</a>
   </div>
   <?php else: ?>
   <div class="table-wrapper">
@@ -50,18 +59,19 @@ $results = $connection->query(
       </thead>
       <tbody>
         <?php while ($r = $results->fetch_assoc()):
-            $grade = $r['Q_Marks'] >= 80 ? 'A' : ($r['Q_Marks'] >= 60 ? 'B' : ($r['Q_Marks'] >= 40 ? 'C' : 'F'));
-            $gradeClass = $r['Q_Marks'] >= 60 ? 'badge-active' : 'badge-expired';
+            $marks = (float) $r['Q_Marks'];
+            $grade = $marks >= 80 ? 'A' : ($marks >= 60 ? 'B' : ($marks >= 40 ? 'C' : 'F'));
+            $gradeClass = $marks >= 60 ? 'badge-active' : 'badge-expired';
         ?>
         <tr>
           <td><?= htmlspecialchars($r['course_title']) ?></td>
           <td><?= htmlspecialchars($r['quiz_title']) ?></td>
           <td><strong><?= $r['Q_Marks'] ?>%</strong></td>
           <td><span class="badge <?= $gradeClass ?>"><?= $grade ?></span></td>
-          <td><?= date('M j, Y', strtotime($r['Taken_At'])) ?></td>
+          <td><?= format_date($r['Taken_At']) ?></td>
           <td>
-            <a href="/educaster/quiz/start_quiz.php?course_id=<?= $r['Course_Id'] ?>" class="btn btn-sm btn-outline">
-              <i class="fas fa-redo"></i> Retake
+            <a href="<?= BASE_PATH ?>/quiz/start_quiz.php?course_id=<?= (int) $r['Course_Id'] ?>" class="btn btn-sm btn-outline">
+              <i class="fas fa-rotate-right"></i> Retake
             </a>
           </td>
         </tr>
@@ -72,5 +82,6 @@ $results = $connection->query(
   <?php endif; ?>
 </div>
 <?php include '../common/footer.php'; ?>
+<script src="<?= BASE_PATH ?>/js/main.js"></script>
 </body>
 </html>

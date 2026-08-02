@@ -1,68 +1,72 @@
 /* css/header.css */
-
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap');
-
 .site-header {
-    background: #1e2a38;
+    background: var(--ink);
     position: sticky;
     top: 0;
     z-index: 900;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, .25);
+    box-shadow: 0 2px 14px rgba(0, 0, 0, .18);
 }
 
 .navbar {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 24px;
     display: flex;
     align-items: center;
-    height: 64px;
+    height: 68px;
     gap: 24px;
 }
 
 .brand {
+    font-family: var(--font-display);
     font-size: 20px;
-    font-weight: 900;
+    font-weight: 800;
     color: #fff;
     text-decoration: none;
-    letter-spacing: .5px;
+    letter-spacing: .3px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 9px;
 }
 
 .brand i {
-    color: #04AA6D;
+    color: var(--chalk);
 }
 
 .brand .role-tag {
+    font-family: var(--font-body);
     font-size: 10px;
     font-weight: 700;
-    background: rgba(255, 255, 255, .15);
-    padding: 2px 7px;
-    border-radius: 4px;
-    letter-spacing: .5px;
+    background: rgba(255, 255, 255, .14);
+    padding: 3px 9px;
+    border-radius: var(--radius-full);
+    letter-spacing: .6px;
+    margin-left: 4px;
 }
 
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 4px;
+    gap: 2px;
     flex: 1;
 }
 
+.nav-links li {
+    position: relative;
+}
+
 .nav-links a {
-    color: rgba(255, 255, 255, .8);
+    color: rgba(255, 255, 255, .78);
     text-decoration: none;
     font-size: 14px;
-    font-weight: 700;
-    padding: 7px 12px;
-    border-radius: 5px;
+    font-weight: 600;
+    padding: 9px 14px;
+    border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
-    gap: 6px;
-    transition: background 0.15s ease, color 0.15s ease;
+    gap: 7px;
+    transition: var(--transition);
     white-space: nowrap;
 }
 
@@ -72,52 +76,45 @@
     color: #fff;
 }
 
+.nav-links a .notif-dot {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 8px;
+    height: 8px;
+    background: var(--red);
+    border-radius: 50%;
+    border: 2px solid var(--ink);
+}
+
 .nav-auth {
     display: flex;
-    gap: 8px;
+    gap: 10px;
     flex-shrink: 0;
     align-items: center;
 }
 
-/* Notification badge on a link */
-.nav-links a .notif-dot {
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    width: 8px;
-    height: 8px;
-    background: #e03e3e;
-    border-radius: 50%;
-}
-
-.nav-links li {
-    position: relative;
-}
-
-/* Hamburger */
 .hamburger {
     display: none;
     background: none;
     border: none;
     color: #fff;
-    font-size: 20px;
+    font-size: 21px;
     cursor: pointer;
     padding: 6px;
     margin-left: auto;
 }
 
-/* Admin header — slightly purple-dark */
+/* Header variants for admin / provider areas */
 .admin-header {
-    background: #1a1e38;
+    background: linear-gradient(135deg, #1c1440, #2c1f63);
 }
 
-/* Provider header — dark green tint */
 .provider-header {
-    background: #0f2318;
+    background: linear-gradient(135deg, #0c2a20, var(--ink));
 }
 
-/* Mobile */
-@media (max-width: 860px) {
+@media (max-width: 900px) {
     .hamburger {
         display: block;
     }
@@ -125,14 +122,15 @@
     .nav-links {
         display: none;
         position: absolute;
-        top: 64px;
+        top: 68px;
         left: 0;
         width: 100%;
-        background: #1e2a38;
+        background: var(--ink);
         flex-direction: column;
-        padding: 12px 20px 20px;
-        gap: 4px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, .2);
+        padding: 10px 20px 18px;
+        gap: 2px;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, .25);
+        animation: fade-up .25s ease both;
     }
 
     .nav-links.open {
@@ -145,7 +143,7 @@
         top: auto;
         left: 0;
         width: 100%;
-        background: #1e2a38;
+        background: var(--ink);
         flex-direction: column;
         padding: 0 20px 20px;
         gap: 8px;
@@ -153,5 +151,10 @@
 
     .nav-auth.open {
         display: flex;
+    }
+
+    .nav-auth .btn {
+        width: 100%;
+        justify-content: center;
     }
 }
