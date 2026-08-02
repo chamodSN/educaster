@@ -4,7 +4,7 @@ require_once '../common/config.php';
 require_once '../common/loginFunctions.php';
 requireProvider();
 
-$providerId = (int)$_SESSION['userData']['Registered_User_Id'];
+$providerId = currentUserId();
 
 $courseCount = $connection->query(
     "SELECT COUNT(*) AS t FROM course WHERE Provider_Id=$providerId"
@@ -25,11 +25,11 @@ $pendingInq = $connection->query(
 $courses = $connection->query(
     "SELECT c.*, cat.Category_Name,
             COUNT(DISTINCT e.Enrollment_Id) AS enrolled,
-            COALESCE(AVG(r.Rating), 0)      AS avg_rating
+            COALESCE(AVG(r.Rating), 0) AS avg_rating
      FROM course c
      LEFT JOIN course_category cat ON cat.Category_Id = c.Category_Id
-     LEFT JOIN enrollment e        ON e.Course_Id = c.Course_Id
-     LEFT JOIN review r            ON r.Course_Id = c.Course_Id
+     LEFT JOIN enrollment e ON e.Course_Id = c.Course_Id
+     LEFT JOIN review r ON r.Course_Id = c.Course_Id
      WHERE c.Provider_Id = $providerId
      GROUP BY c.Course_Id
      ORDER BY c.Created_At DESC"
@@ -41,101 +41,76 @@ $courses = $connection->query(
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Provider Dashboard — Educaster</title>
-  <link rel="stylesheet" href="/educaster/css/global.css">
-  <link rel="stylesheet" href="/educaster/css/header.css">
-  <link rel="stylesheet" href="/educaster/css/footer.css">
-  <link rel="stylesheet" href="/educaster/css/admin.css">
-  <link rel="stylesheet" href="/educaster/css/provider.css">
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/css/global.css">
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/css/header.css">
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/css/footer.css">
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/css/admin.css">
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/css/provider.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 <?php include '../common/providerHeader.php'; ?>
-<div class="page-wrap">
+<div class="page-wrapper">
 
-  <!-- Welcome -->
-  <div class="admin-welcome">
+  <div class="dash-welcome">
     <div>
       <h1>Welcome, <?= htmlspecialchars($_SESSION['userData']['User_Name']) ?>!</h1>
       <p>Manage your courses and track learner progress.</p>
     </div>
-    <a href="create_course.php" class="btn-green">
-      <i class="fas fa-plus"></i> New Course
-    </a>
+    <a href="create_course.php" class="btn btn-primary"><i class="fas fa-plus"></i> New Course</a>
   </div>
 
-  <!-- Stats -->
   <div class="admin-stats">
-    <div class="a-stat">
-      <i class="fas fa-book"></i>
-      <div><strong><?= $courseCount ?></strong><span>My Courses</span></div>
-    </div>
-    <div class="a-stat">
-      <i class="fas fa-users"></i>
-      <div><strong><?= $enrollCount ?></strong><span>Total Enrolled</span></div>
-    </div>
-    <div class="a-stat warn">
-      <i class="fas fa-envelope"></i>
-      <div><strong><?= $pendingInq ?></strong><span>Pending Inquiries</span></div>
-    </div>
-    <a href="provider_inquiries.php" class="a-stat info" style="text-decoration:none;cursor:pointer">
-      <i class="fas fa-reply"></i>
-      <div><strong>View</strong><span>Inquiries</span></div>
+    <div class="admin-stat-card"><i class="fas fa-book"></i><div><strong><?= (int) $courseCount ?></strong><span>My Courses</span></div></div>
+    <div class="admin-stat-card"><i class="fas fa-users"></i><div><strong><?= (int) $enrollCount ?></strong><span>Total Enrolled</span></div></div>
+    <a href="provider_inquiries.php" class="admin-stat-card accent-amber" style="text-decoration:none;cursor:pointer">
+      <i class="fas fa-envelope"></i><div><strong><?= (int) $pendingInq ?></strong><span>Pending Inquiries</span></div>
     </a>
   </div>
 
-  <!-- Courses -->
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px">
     <h2 class="section-title">My Courses</h2>
-    <a href="create_course.php" class="btn-outline btn-sm"><i class="fas fa-plus"></i> Add Course</a>
+    <a href="create_course.php" class="btn btn-outline btn-sm"><i class="fas fa-plus"></i> Add Course</a>
   </div>
 
-  <?php if ($courseCount === 0): ?>
-    <div class="empty-box">
+  <?php if ($courseCount == 0): ?>
+    <div class="empty-state">
       <i class="fas fa-book-open"></i>
       <h3>No courses yet</h3>
       <p>Create your first course to start teaching.</p>
-      <a href="create_course.php" class="btn-green">Create Course</a>
+      <a href="create_course.php" class="btn btn-primary">Create Course</a>
     </div>
   <?php else: ?>
   <div class="prov-grid">
-    <?php while ($c = $courses->fetch_assoc()):
-        $stars = round($c['avg_rating']);
-    ?>
+    <?php while ($c = $courses->fetch_assoc()): ?>
     <div class="prov-card">
       <div class="prov-card-top">
         <div>
           <span class="pill"><?= htmlspecialchars($c['Category_Name'] ?? 'General') ?></span>
           <h4><?= htmlspecialchars($c['Title']) ?></h4>
         </div>
-        <span class="badge <?= $c['Is_Active'] ? 'badge-active' : 'badge-expired' ?>">
-          <?= $c['Is_Active'] ? 'Active' : 'Off' ?>
-        </span>
+        <span class="badge <?= $c['Is_Active'] ? 'badge-active' : 'badge-expired' ?>"><?= $c['Is_Active'] ? 'Active' : 'Off' ?></span>
       </div>
 
       <div class="prov-card-meta">
-        <span><i class="fas fa-users"></i> <?= $c['enrolled'] ?> enrolled</span>
-        <span><i class="fas fa-star" style="color:#f59e0b"></i> <?= number_format($c['avg_rating'],1) ?></span>
-        <span><i class="fas fa-calendar"></i> <?= $c['Due_Date'] ?: 'No deadline' ?></span>
+        <span><i class="fas fa-users"></i> <?= (int) $c['enrolled'] ?> enrolled</span>
+        <span><?= render_stars((float) $c['avg_rating']) ?> <?= number_format((float) $c['avg_rating'], 1) ?></span>
+        <span><i class="fas fa-calendar"></i> <?= $c['Due_Date'] ? format_date($c['Due_Date']) : 'No deadline' ?></span>
       </div>
 
       <div class="prov-card-actions">
-        <a href="edit_course.php?id=<?= $c['Course_Id'] ?>" class="btn-outline btn-sm">
-          <i class="fas fa-edit"></i> Edit
-        </a>
-        <a href="add_week.php?course_id=<?= $c['Course_Id'] ?>" class="btn-outline btn-sm">
-          <i class="fas fa-list"></i> Weeks
-        </a>
-        <a href="manage_quiz.php?course_id=<?= $c['Course_Id'] ?>" class="btn-outline btn-sm">
-          <i class="fas fa-question-circle"></i> Quiz
-        </a>
-        <a href="course_stats.php?id=<?= $c['Course_Id'] ?>" class="btn-green btn-sm">
-          <i class="fas fa-chart-bar"></i> Stats
-        </a>
-        <a href="toggle_active.php?id=<?= $c['Course_Id'] ?>&status=<?= $c['Is_Active'] ?>"
-           class="<?= $c['Is_Active'] ? 'btn-red' : 'btn-green' ?> btn-sm">
-          <i class="fas fa-<?= $c['Is_Active'] ? 'pause' : 'play' ?>"></i>
-          <?= $c['Is_Active'] ? 'Deactivate' : 'Activate' ?>
-        </a>
+        <a href="edit_course.php?id=<?= (int) $c['Course_Id'] ?>" class="btn btn-outline btn-sm"><i class="fas fa-edit"></i> Edit</a>
+        <a href="add_week.php?course_id=<?= (int) $c['Course_Id'] ?>" class="btn btn-outline btn-sm"><i class="fas fa-list"></i> Weeks</a>
+        <a href="manage_quiz.php?course_id=<?= (int) $c['Course_Id'] ?>" class="btn btn-outline btn-sm"><i class="fas fa-question-circle"></i> Quiz</a>
+        <a href="course_stats.php?id=<?= (int) $c['Course_Id'] ?>" class="btn btn-primary btn-sm"><i class="fas fa-chart-bar"></i> Stats</a>
+        <form action="toggle_active.php" method="POST" style="display:inline-flex">
+          <?= csrf_field() ?>
+          <input type="hidden" name="id" value="<?= (int) $c['Course_Id'] ?>">
+          <input type="hidden" name="status" value="<?= (int) $c['Is_Active'] ?>">
+          <button type="submit" class="btn btn-sm <?= $c['Is_Active'] ? 'btn-danger' : 'btn-primary' ?>">
+            <i class="fas fa-<?= $c['Is_Active'] ? 'pause' : 'play' ?>"></i> <?= $c['Is_Active'] ? 'Deactivate' : 'Activate' ?>
+          </button>
+        </form>
       </div>
     </div>
     <?php endwhile; ?>
@@ -144,6 +119,6 @@ $courses = $connection->query(
 
 </div>
 <?php include '../common/footer.php'; ?>
-<script src="/educaster/js/main.js"></script>
+<script src="<?= BASE_PATH ?>/js/main.js"></script>
 </body>
 </html>

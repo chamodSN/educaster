@@ -1,40 +1,32 @@
-/* css/contact.css — Updated with wider layout */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+/* css/contact.css */
 
-.contact-hero {
-	background: linear-gradient(135deg, #0d2137, #1a3a5c);
-	padding: 70px 0;
+.page-hero {
+	background: linear-gradient(135deg, var(--ink), var(--green-darker));
+	padding: 56px 0 78px;
 	text-align: center;
 	color: #fff;
+	margin-bottom: -40px;
 }
 
-.contact-hero h1 {
-	font-size: clamp(28px, 4vw, 46px);
-	font-weight: 900;
-	margin-bottom: 12px;
+.page-hero h1 {
+	font-size: clamp(26px, 4vw, 42px);
+	color: #fff;
+	margin-bottom: 10px;
 }
 
-.contact-hero p {
-	font-size: 17px;
-	color: rgba(255, 255, 255, 0.8);
+.page-hero p {
+	font-size: 16px;
+	color: rgba(255, 255, 255, .78);
 }
 
-/* ── Main wider layout ── */
 .contact-grid {
 	display: grid;
 	grid-template-columns: 300px 1fr;
-	/* wider: was 280px 1fr */
-	gap: 36px;
-	margin-top: 52px;
-	margin-bottom: 60px;
-	max-width: 1100px;
-	/* wider overall max */
-	margin-left: auto;
-	margin-right: auto;
-	padding: 0 20px;
+	gap: 30px;
+	position: relative;
+	z-index: 2;
 }
 
-/* Info sidebar cards */
 .contact-info {
 	display: flex;
 	flex-direction: column;
@@ -45,7 +37,7 @@
 	background: var(--white);
 	border-radius: var(--radius-md);
 	padding: 24px;
-	box-shadow: var(--shadow-sm);
+	box-shadow: var(--shadow-md);
 	border-left: 4px solid var(--green);
 	transition: var(--transition);
 	text-decoration: none;
@@ -55,12 +47,11 @@
 
 .info-card:hover {
 	transform: translateY(-4px);
-	box-shadow: var(--shadow-md);
-	border-left-color: var(--green-dark);
+	box-shadow: var(--shadow-lg);
 }
 
 .info-card i {
-	font-size: 24px;
+	font-size: 23px;
 	color: var(--green);
 	margin-bottom: 10px;
 	display: block;
@@ -68,7 +59,6 @@
 
 .info-card h4 {
 	font-size: 15px;
-	font-weight: 700;
 	margin-bottom: 5px;
 }
 
@@ -77,20 +67,17 @@
 	color: var(--text-muted);
 }
 
-/* Form box — much wider now */
 .contact-form-box {
 	background: var(--white);
 	border-radius: var(--radius-lg);
-	padding: 48px 52px;
-	/* more horizontal padding */
-	box-shadow: var(--shadow-sm);
+	padding: 44px 46px;
+	box-shadow: var(--shadow-lg);
 	border: 1px solid var(--border);
 }
 
 .contact-form-box h2 {
-	font-size: 26px;
-	font-weight: 800;
-	margin-bottom: 28px;
+	font-size: 23px;
+	margin-bottom: 24px;
 	display: flex;
 	align-items: center;
 	gap: 10px;
@@ -100,31 +87,12 @@
 	color: var(--green);
 }
 
-.contact-form-box .form-control {
-	width: 100%;
-	padding: 13px 16px;
-	border: 1.5px solid var(--border);
-	border-radius: var(--radius-sm);
-	font-size: 15px;
-	transition: border-color 0.25s, box-shadow 0.25s;
-	background: var(--white);
-	font-family: var(--font);
-}
-
-.contact-form-box .form-control:focus {
-	border-color: var(--green);
-	box-shadow: 0 0 0 3px rgba(4, 170, 109, 0.15);
-	outline: none;
-}
-
-/* Two-column row for email/subject */
 .contact-form-row {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	gap: 18px;
+	gap: 16px;
 }
 
-/* Inquiry list (myInquiries page) */
 .inquiry-list {
 	display: flex;
 	flex-direction: column;
@@ -134,7 +102,7 @@
 .inquiry-card {
 	background: var(--white);
 	border-radius: var(--radius-md);
-	padding: 24px 28px;
+	padding: 22px 26px;
 	box-shadow: var(--shadow-sm);
 	border-left: 5px solid var(--border);
 	transition: var(--transition);
@@ -149,7 +117,7 @@
 }
 
 .inquiry-card.pending {
-	border-left-color: #f39c12;
+	border-left-color: var(--chalk-dark);
 }
 
 .inquiry-card-header {
@@ -166,6 +134,8 @@
 	align-items: center;
 	gap: 10px;
 	flex-wrap: wrap;
+	font-size: 12.5px;
+	color: var(--text-muted);
 }
 
 .inquiry-msg {
@@ -180,7 +150,7 @@
 	border-radius: var(--radius-sm);
 	padding: 14px 18px;
 	font-size: 14px;
-	margin-bottom: 14px;
+	margin-bottom: 12px;
 	display: flex;
 	gap: 10px;
 	align-items: flex-start;
@@ -199,14 +169,13 @@
 	flex-wrap: wrap;
 }
 
-/* Responsive */
 @media (max-width: 900px) {
 	.contact-grid {
 		grid-template-columns: 1fr;
 	}
 
 	.contact-form-box {
-		padding: 28px 24px;
+		padding: 30px 24px;
 	}
 
 	.contact-form-row {
@@ -216,6 +185,6 @@
 
 @media (max-width: 600px) {
 	.contact-form-box {
-		padding: 22px 18px;
+		padding: 24px 18px;
 	}
 }

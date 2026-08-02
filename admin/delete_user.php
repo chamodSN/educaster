@@ -4,17 +4,22 @@ require_once '../common/config.php';
 require_once '../common/loginFunctions.php';
 requireAdmin();
 
-$id   = (int)($_GET['id'] ?? 0);
-$type = $_GET['type'] ?? '';
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: manage_teachers.php');
+    exit();
+}
+verify_csrf();
+
+$id   = (int) ($_POST['id'] ?? 0);
+$type = $_POST['type'] ?? '';
 
 $allowed = ['TCH', 'INS', 'STD'];
-if ($id && in_array($type, $allowed)) {
-    $connection->query("DELETE FROM registered_user WHERE Registered_User_Id=$id AND Registered_User_Type='$type'");
+if ($id && in_array($type, $allowed, true)) {
+    $stmt = $connection->prepare('DELETE FROM registered_user WHERE Registered_User_Id = ? AND Registered_User_Type = ?');
+    $stmt->bind_param('is', $id, $type);
+    $stmt->execute();
 }
 
-$redirect = match($type) {
-    'INS'   => 'manage_providers.php',
-    default => 'manage_teachers.php',
-};
-header("Location: $redirect?deleted=1"); exit();
-?>
+$redirect = $type === 'INS' ? 'manage_providers.php' : 'manage_teachers.php';
+header("Location: $redirect?deleted=1");
+exit();

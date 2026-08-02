@@ -1,7 +1,33 @@
 /* css/admin.css */
+
+.dash-welcome {
+    background: linear-gradient(135deg, var(--ink), var(--green-darker));
+    border-radius: var(--radius-lg);
+    padding: 30px 34px;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 26px;
+    flex-wrap: wrap;
+    gap: 14px;
+    box-shadow: var(--shadow-md);
+}
+
+.dash-welcome h1 {
+    color: #fff;
+    font-size: 23px;
+    margin-bottom: 4px;
+}
+
+.dash-welcome p {
+    font-size: 14px;
+    color: rgba(255, 255, 255, .68);
+}
+
 .admin-stats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
     gap: 18px;
     margin-bottom: 28px;
 }
@@ -24,38 +50,56 @@
 }
 
 .admin-stat-card i {
-    font-size: 28px;
+    font-size: 26px;
     color: var(--green);
     flex-shrink: 0;
 }
 
 .admin-stat-card strong {
-    font-size: 26px;
-    font-weight: 900;
+    font-size: 25px;
+    font-weight: 800;
     display: block;
     line-height: 1;
+    color: var(--ink);
 }
 
 .admin-stat-card span {
     font-size: 13px;
     color: var(--text-muted);
     margin-top: 4px;
+    display: block;
+}
+
+.admin-stat-card.accent-amber {
+    border-left-color: var(--chalk-dark);
+}
+
+.admin-stat-card.accent-amber i {
+    color: var(--chalk-dark);
+}
+
+.admin-stat-card.accent-blue {
+    border-left-color: var(--blue);
+}
+
+.admin-stat-card.accent-blue i {
+    color: var(--blue);
 }
 
 .admin-quick-nav {
     display: flex;
     flex-wrap: wrap;
-    gap: 14px;
-    margin-bottom: 28px;
+    gap: 13px;
+    margin-bottom: 10px;
 }
 
 .quick-link {
     background: var(--white);
     border: 2px solid var(--border);
     border-radius: var(--radius-sm);
-    padding: 12px 22px;
-    font-weight: 600;
-    font-size: 14px;
+    padding: 11px 20px;
+    font-weight: 700;
+    font-size: 13.5px;
     text-decoration: none;
     color: var(--text);
     display: flex;
@@ -68,13 +112,47 @@
     border-color: var(--green);
     color: var(--green);
     transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
 }
 
 .quick-link i {
     color: var(--green);
 }
 
-/* Admin header specific */
-.admin-header {
-    background: linear-gradient(135deg, #1a0533, #2d1b69);
+.subhead {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--ink);
+}
+
+.list-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.search-form {
+    display: flex;
+    gap: 8px;
+}
+
+.search-form .form-control {
+    width: 260px;
+}
+
+@media (max-width: 640px) {
+    .search-form {
+        width: 100%;
+    }
+
+    .search-form .form-control {
+        width: 100%;
+    }
 }

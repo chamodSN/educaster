@@ -1,5 +1,5 @@
 <?php
-// admin/course_stats.php — global stats for super admin
+// admin/course_stats.php — platform-wide stats for super admin
 require_once '../common/config.php';
 require_once '../common/loginFunctions.php';
 requireAdmin();
@@ -22,34 +22,35 @@ $topCourses = $connection->query(
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Course Statistics — Admin</title>
-  <link rel="stylesheet" href="/educaster/css/global.css">
-  <link rel="stylesheet" href="/educaster/css/header.css">
-  <link rel="stylesheet" href="/educaster/css/footer.css">
-  <link rel="stylesheet" href="/educaster/css/admin.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/css/global.css">
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/css/header.css">
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/css/footer.css">
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/css/admin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 <?php include '../common/adminHeader.php'; ?>
 <div class="page-wrapper">
   <h1 class="section-title">Platform Statistics</h1>
-  <p class="section-subtitle">Top courses by enrolment</p>
-  <div class="table-wrapper" style="margin-top:24px">
+  <p class="section-subtitle">Top courses ranked by enrolment</p>
+  <div class="table-wrapper">
     <table>
       <thead>
         <tr><th>Rank</th><th>Course</th><th>Provider</th><th>Enrolled</th><th>Avg Rating</th><th>Avg Quiz Score</th><th>Action</th></tr>
       </thead>
       <tbody>
-        <?php $rank=0; while ($c = $topCourses->fetch_assoc()):
-            $rank++;
-        ?>
+        <?php if ($topCourses->num_rows === 0): ?>
+          <tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:28px">No course data yet.</td></tr>
+        <?php endif; ?>
+        <?php $rank = 0; while ($c = $topCourses->fetch_assoc()): $rank++; ?>
         <tr>
           <td><strong>#<?= $rank ?></strong></td>
           <td><?= htmlspecialchars($c['Title']) ?></td>
           <td><?= htmlspecialchars($c['provider']) ?></td>
-          <td><?= $c['enrolled'] ?></td>
-          <td><span style="color:#f39c12"><?= str_repeat('★', round($c['avg_rating'])) ?></span> <?= number_format($c['avg_rating'],1) ?></td>
-          <td><?= $c['avg_quiz'] !== null ? number_format($c['avg_quiz'],1).'%' : '—' ?></td>
-          <td><a href="/educaster/courses/course_overview.php?id=<?= $c['Course_Id'] ?>" class="btn btn-sm btn-outline"><i class="fas fa-eye"></i> View</a></td>
+          <td><?= (int) $c['enrolled'] ?></td>
+          <td><?= render_stars((float) $c['avg_rating']) ?> <?= number_format((float) $c['avg_rating'], 1) ?></td>
+          <td><?= $c['avg_quiz'] !== null ? number_format((float) $c['avg_quiz'], 1) . '%' : '—' ?></td>
+          <td><a href="<?= BASE_PATH ?>/courses/course_overview.php?id=<?= (int) $c['Course_Id'] ?>" class="btn btn-sm btn-outline"><i class="fas fa-eye"></i> View</a></td>
         </tr>
         <?php endwhile; ?>
       </tbody>
@@ -57,5 +58,6 @@ $topCourses = $connection->query(
   </div>
 </div>
 <?php include '../common/footer.php'; ?>
+<script src="<?= BASE_PATH ?>/js/main.js"></script>
 </body>
 </html>

@@ -4,46 +4,52 @@ require_once '../common/config.php';
 require_once '../common/loginFunctions.php';
 requireProvider();
 
-$providerId = (int)$_SESSION['userData']['Registered_User_Id'];
-$courseId   = (int)($_GET['course_id'] ?? 0);
+$providerId = currentUserId();
+$courseId   = (int) ($_GET['course_id'] ?? 0);
 
-$course = $connection->query("SELECT * FROM course WHERE Course_Id=$courseId AND Provider_Id=$providerId")->fetch_assoc();
-if (!$course) { header("Location: manage_courses.php"); exit(); }
+$stmt = $connection->prepare('SELECT * FROM course WHERE Course_Id=? AND Provider_Id=?');
+$stmt->bind_param('ii', $courseId, $providerId);
+$stmt->execute();
+$course = $stmt->get_result()->fetch_assoc();
+if (!$course) { header('Location: manage_courses.php'); exit(); }
 
 $existingWeeks = $connection->query("SELECT * FROM weekly_course WHERE Course_Id=$courseId ORDER BY Week_Number ASC");
 $nextWeekNum   = $existingWeeks->num_rows + 1;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_week'])) {
-    $weekNum  = (int)($_POST['week_number'] ?? $nextWeekNum);
-    $title    = trim($_POST['week_title'] ?? '');
-    $desc     = trim($_POST['description'] ?? '');
-    $link     = trim($_POST['course_link'] ?? '');
-    $vidName  = null;
-    $resName  = null;
+    verify_csrf();
 
-    if (!empty($_FILES['video_file']['name'])) {
-        $ext = strtolower(pathinfo($_FILES['video_file']['name'], PATHINFO_EXTENSION));
-        if (in_array($ext, ['mp4','mov','avi','webm'])) {
-            $vidName = uniqid('vid_') . '.' . $ext;
-            move_uploaded_file($_FILES['video_file']['tmp_name'], '../uploads/' . $vidName);
-        }
-    }
-    if (!empty($_FILES['resource_file']['name'])) {
-        $resName = uniqid('res_') . '_' . basename($_FILES['resource_file']['name']);
-        move_uploaded_file($_FILES['resource_file']['tmp_name'], '../uploads/' . $resName);
+    $weekNum = (int) ($_POST['week_number'] ?? $nextWeekNum);
+    $title   = trim($_POST['week_title'] ?? '');
+    $desc    = trim($_POST['description'] ?? '');
+    $link    = sanitize_url($_POST['course_link'] ?? '');
+
+    if (empty($title)) {
+        header("Location: add_week.php?course_id=$courseId&error=emptytitle");
+        exit();
     }
 
-    $esc_title = $connection->real_escape_string($title);
-    $esc_desc  = $connection->real_escape_string($desc);
-    $esc_link  = $connection->real_escape_string($link);
-    $connection->query(
-        "INSERT INTO weekly_course (Course_Id, Week_Number, Week_Title, Description, Video_File, Resource_File, Course_Link)
-         VALUES ($courseId, $weekNum, '$esc_title', '$esc_desc',
-                 " . ($vidName ? "'$vidName'" : 'NULL') . ",
-                 " . ($resName ? "'$resName'" : 'NULL') . ",
-                 " . ($link ? "'$esc_link'" : 'NULL') . ")"
+    // FIX: previously ANY file extension was accepted for resources
+    // (a malicious .php upload here would have been executable, since
+    // /uploads is under the public web root). Now validated + the
+    // uploads folder also ships with a .htaccess that blocks script
+    // execution as a second layer of defence.
+    $vidName = handle_upload('video_file', 'allowed_video_extension', 'vid');
+    $resName = handle_upload('resource_file', 'allowed_resource_extension', 'res');
+
+    $stmt = $connection->prepare(
+        'INSERT INTO weekly_course (Course_Id, Week_Number, Week_Title, Description, Video_File, Resource_File, Course_Link)
+         VALUES (?,?,?,?,?,?,?)'
     );
-    header("Location: add_week.php?course_id=$courseId&added=1"); exit();
+    $stmt->bind_param('iisssss', $courseId, $weekNum, $title, $desc, $vidName, $resName, $link);
+
+    if (!$stmt->execute()) {
+        header("Location: add_week.php?course_id=$courseId&error=duplicate");
+        exit();
+    }
+
+    header("Location: add_week.php?course_id=$courseId&added=1");
+    exit();
 }
 ?>
 <!DOCTYPE html>
@@ -52,48 +58,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_week'])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Add Week — <?= htmlspecialchars($course['Title']) ?></title>
-  <link rel="stylesheet" href="/educaster/css/global.css">
-  <link rel="stylesheet" href="/educaster/css/header.css">
-  <link rel="stylesheet" href="/educaster/css/footer.css">
-  <link rel="stylesheet" href="/educaster/css/provider.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/css/global.css">
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/css/header.css">
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/css/footer.css">
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/css/provider.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 <?php include '../common/providerHeader.php'; ?>
 <div class="page-wrapper">
-  <?php if (isset($_GET['added'])): ?><div class="alert alert-success"><i class="fas fa-check"></i> Week added!</div><?php endif; ?>
-  <?php if (isset($_GET['created'])): ?><div class="alert alert-success"><i class="fas fa-check"></i> Course created! Now add your weekly content.</div><?php endif; ?>
+  <?php if (isset($_GET['added'])): ?><div class="alert alert-success"><i class="fas fa-circle-check"></i> Week added!</div><?php endif; ?>
+  <?php if (isset($_GET['created'])): ?><div class="alert alert-success"><i class="fas fa-circle-check"></i> Course created! Now add your weekly content.</div><?php endif; ?>
+  <?php if (isset($_GET['updated'])): ?><div class="alert alert-success"><i class="fas fa-circle-check"></i> Week updated!</div><?php endif; ?>
+  <?php if (isset($_GET['error']) && $_GET['error'] === 'emptytitle'): ?><div class="alert alert-error"><i class="fas fa-triangle-exclamation"></i> Week title is required.</div><?php endif; ?>
+  <?php if (isset($_GET['error']) && $_GET['error'] === 'duplicate'): ?><div class="alert alert-error"><i class="fas fa-triangle-exclamation"></i> That week number already exists for this course.</div><?php endif; ?>
 
-  <div class="weeks-manager">
-    <!-- Existing weeks -->
-    <div class="existing-weeks">
-      <h3><i class="fas fa-list" style="color:var(--green)"></i> <?= htmlspecialchars($course['Title']) ?></h3>
+  <div class="weeks-layout">
+    <div class="week-panel">
+      <h3><i class="fas fa-list"></i> <?= htmlspecialchars($course['Title']) ?></h3>
       <?php $existingWeeks->data_seek(0); if ($existingWeeks->num_rows > 0): ?>
-      <div class="weeks-list" style="margin-top:16px">
+      <div style="margin-top:14px">
         <?php while ($w = $existingWeeks->fetch_assoc()): ?>
-        <div class="week-item">
-          <div class="week-num">W<?= $w['Week_Number'] ?></div>
-          <div class="week-info">
-            <strong><?= htmlspecialchars($w['Week_Title']) ?></strong>
-            <div style="display:flex;gap:8px;margin-top:6px">
-              <a href="edit_week.php?id=<?= $w['Week_Id'] ?>" class="btn btn-sm btn-outline"><i class="fas fa-edit"></i> Edit</a>
-            </div>
+        <div class="week-list-item">
+          <div class="wk-num">W<?= (int) $w['Week_Number'] ?></div>
+          <div style="flex:1">
+            <div class="wk-title"><?= htmlspecialchars($w['Week_Title']) ?></div>
+            <a href="edit_week.php?id=<?= (int) $w['Week_Id'] ?>" class="btn btn-sm btn-outline" style="margin-top:6px"><i class="fas fa-edit"></i> Edit</a>
           </div>
         </div>
         <?php endwhile; ?>
       </div>
       <?php else: ?>
-        <p style="color:var(--text-muted);margin-top:12px">No weeks added yet. Use the form to add content.</p>
+        <p style="color:var(--text-muted);margin-top:12px;font-size:13.5px">No weeks added yet. Use the form to add your first lesson.</p>
       <?php endif; ?>
       <div style="margin-top:20px">
-        <a href="manage_courses.php" class="btn btn-outline btn-sm"><i class="fas fa-arrow-left"></i> Back to My Courses</a>
+        <a href="manage_courses.php" class="btn btn-outline btn-sm btn-block"><i class="fas fa-arrow-left"></i> Back to My Courses</a>
       </div>
     </div>
 
-    <!-- Add week form -->
-    <div class="form-page-card" style="flex:1">
-      <h3><i class="fas fa-plus-circle" style="color:var(--green)"></i> Add Week <?= $nextWeekNum ?></h3>
+    <div class="form-page" style="margin:0">
+      <h3><i class="fas fa-plus-circle"></i> Add Week <?= $nextWeekNum ?></h3>
       <form action="add_week.php?course_id=<?= $courseId ?>" method="POST" enctype="multipart/form-data" style="margin-top:20px">
+        <?= csrf_field() ?>
         <input type="hidden" name="week_number" value="<?= $nextWeekNum ?>">
         <div class="form-group">
           <label>Week Title <span class="req">*</span></label>
@@ -104,18 +110,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_week'])) {
           <textarea name="description" class="form-control" rows="5" placeholder="Detailed lesson content..."></textarea>
         </div>
         <div class="form-group">
-          <label>Video File <small>(mp4, mov, webm)</small></label>
+          <label>Video File <small>(mp4, mov, avi, webm)</small></label>
           <input type="file" name="video_file" class="form-control" accept="video/*">
         </div>
         <div class="form-group">
-          <label>Resource File <small>(pdf, doc, ppt, etc.)</small></label>
+          <label>Resource File <small>(pdf, doc, ppt, xls, zip, image)</small></label>
           <input type="file" name="resource_file" class="form-control">
         </div>
         <div class="form-group">
           <label>External Link <small>(YouTube, article, etc.)</small></label>
           <input type="url" name="course_link" class="form-control" placeholder="https://...">
         </div>
-        <button type="submit" name="add_week" class="btn btn-primary" style="width:100%;justify-content:center;padding:13px">
+        <button type="submit" name="add_week" class="btn btn-primary btn-block">
           <i class="fas fa-plus"></i> Add Week <?= $nextWeekNum ?>
         </button>
       </form>
@@ -123,5 +129,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_week'])) {
   </div>
 </div>
 <?php include '../common/footer.php'; ?>
+<script src="<?= BASE_PATH ?>/js/main.js"></script>
 </body>
 </html>

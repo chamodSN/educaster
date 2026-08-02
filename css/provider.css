@@ -1,10 +1,5 @@
 /* css/provider.css */
 
-/* ── Dashboard layout same as admin dashboard ──
-   provider uses .admin-welcome, .admin-stats, .a-stat from admin.css
-   provider.css adds provider-specific elements */
-
-/* ── Courses grid on dashboard ── */
 .prov-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -12,17 +7,17 @@
 }
 
 .prov-card {
-    background: #fff;
-    border-radius: 10px;
+    background: var(--white);
+    border-radius: var(--radius-md);
     padding: 22px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
-    border-top: 4px solid #04AA6D;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: var(--shadow-sm);
+    border-top: 4px solid var(--green);
+    transition: var(--transition);
 }
 
 .prov-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, .11);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
 }
 
 .prov-card-top {
@@ -34,23 +29,24 @@
 }
 
 .prov-card-top h4 {
-    font-size: 15px;
-    font-weight: 900;
+    font-size: 15.5px;
+    font-weight: 800;
     line-height: 1.35;
-    color: #1e2a38;
+    margin-top: 8px;
 }
 
 .prov-card-meta {
     display: flex;
     gap: 14px;
     font-size: 13px;
-    color: #888;
+    color: var(--text-muted);
     margin-bottom: 16px;
     flex-wrap: wrap;
+    align-items: center;
 }
 
 .prov-card-meta i {
-    color: #04AA6D;
+    color: var(--green);
     margin-right: 3px;
 }
 
@@ -62,18 +58,17 @@
 
 /* ── Form pages ── */
 .form-page {
-    background: #fff;
-    border-radius: 10px;
-    padding: 36px 40px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
-    max-width: 700px;
-    margin: 20px auto;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 38px 42px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+    max-width: 720px;
+    margin: 0 auto;
 }
 
 .form-page h1 {
     font-size: 22px;
-    font-weight: 900;
-    color: #1e2a38;
     margin-bottom: 6px;
     display: flex;
     align-items: center;
@@ -81,12 +76,12 @@
 }
 
 .form-page h1 i {
-    color: #04AA6D;
+    color: var(--green);
 }
 
 .form-sub {
     font-size: 14px;
-    color: #888;
+    color: var(--text-muted);
     margin-bottom: 24px;
 }
 
@@ -103,34 +98,33 @@
 }
 
 .week-panel {
-    background: #fff;
-    border-radius: 10px;
+    background: var(--white);
+    border-radius: var(--radius-md);
     padding: 22px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
     position: sticky;
-    top: 80px;
+    top: 90px;
 }
 
 .week-panel h3 {
     font-size: 15px;
-    font-weight: 900;
-    color: #1e2a38;
-    margin-bottom: 16px;
+    margin-bottom: 4px;
     display: flex;
     align-items: center;
     gap: 7px;
 }
 
 .week-panel h3 i {
-    color: #04AA6D;
+    color: var(--green);
 }
 
 .week-list-item {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 12px;
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
 }
 
 .week-list-item:last-child {
@@ -138,33 +132,28 @@
 }
 
 .wk-num {
-    width: 36px;
-    height: 36px;
-    background: #e8f8f0;
-    color: #037a52;
+    width: 34px;
+    height: 34px;
+    background: var(--green-light);
+    color: var(--green-dark);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 11px;
-    font-weight: 900;
+    font-weight: 800;
     flex-shrink: 0;
 }
 
 .wk-title {
     font-size: 14px;
     font-weight: 700;
-    flex: 1;
 }
 
 /* ── Quiz builder ── */
 .q-builder {
-    background: #fff;
-    border-radius: 10px;
-    padding: 22px 24px;
     margin-bottom: 18px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .07);
-    border-left: 4px solid #04AA6D;
+    border-left: 4px solid var(--green);
 }
 
 .q-num-label {
@@ -172,7 +161,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: .5px;
-    color: #04AA6D;
+    color: var(--green);
     margin-bottom: 10px;
 }
 
@@ -180,45 +169,10 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 8px;
+    margin-bottom: 9px;
 }
 
-.opt-row input[type="radio"] {
-    accent-color: #04AA6D;
-    width: 16px;
-    height: 16px;
-    flex-shrink: 0;
-}
-
-/* ── Quiz empty state ── */
-.quiz-none {
-    text-align: center;
-    padding: 64px 24px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .07);
-}
-
-.quiz-none i {
-    font-size: 48px;
-    color: #ccc;
-    display: block;
-    margin-bottom: 14px;
-}
-
-.quiz-none h3 {
-    font-size: 20px;
-    font-weight: 900;
-    margin-bottom: 8px;
-}
-
-.quiz-none p {
-    color: #888;
-    font-size: 14px;
-    margin-bottom: 22px;
-}
-
-@media (max-width: 768px) {
+@media (max-width: 860px) {
     .weeks-layout {
         grid-template-columns: 1fr;
     }
@@ -228,6 +182,6 @@
     }
 
     .form-page {
-        padding: 24px 18px;
+        padding: 26px 20px;
     }
 }
